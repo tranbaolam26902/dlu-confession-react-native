@@ -1,0 +1,25 @@
+const icons = {
+    addImage: require('./add-image.svg').default,
+    add: require('./add.svg').default,
+    back: require('./back.svg').default,
+    categoryActive: require('./category-active.svg').default,
+    category: require('./category.svg').default,
+    comment: require('./comment.svg').default,
+    homeActive: require('./home-active.svg').default,
+    home: require('./home.svg').default,
+    menu: require('./menu.svg').default,
+    notificationActive: require('./notification-active.svg').default,
+    notificationStatus: require('./notification-status.svg').default,
+    notification: require('./notification.svg').default,
+    optionHorizontal: require('./option-horizontal.svg').default,
+    optionVertical: require('./option-vertical').default,
+    popularActive: require('./popular-active.svg').default,
+    popular: require('./popular.svg').default,
+    search: require('./search.svg').default,
+    userActive: require('./user-active.svg').default,
+    user: require('./user.svg').default,
+    voteActive: require('./vote-active.svg').default,
+    vote: require('./vote.svg').default,
+};
+
+export default icons;
