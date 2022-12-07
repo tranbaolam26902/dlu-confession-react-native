@@ -1,6 +1,6 @@
 import { SET_SHOW_SIGN_IN_MODAL } from './constants';
 
-const apiURL = 'https://localhost:44332';
+const apiURL = 'https://localhost:30123';
 
 const initStates = {
     apiURL: apiURL,
