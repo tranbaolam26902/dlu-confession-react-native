@@ -1,20 +1,26 @@
 import { useRef, useState } from 'react';
 import { StyleSheet, View, Text, Image, Pressable, Keyboard } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import GlobalStyles from '../assets/styles/GlobalStyles';
 import images from '../assets/images';
 
 import Button from '../components/Button';
 import Input from '../components/Input';
+import { useStore } from '../store';
 
 function SignUpScreen({ navigation }) {
+    // Global states
+    const [states, dispatch] = useStore();
+    const { apiURL } = states;
+
     // Component's states
     const [errorMessage, setErrorMessage] = useState('');
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [nickname, setNickname] = useState('');
     const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassowrd] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
     // Component's refs
     const emailInputRef = useRef();
@@ -36,12 +42,54 @@ function SignUpScreen({ navigation }) {
         setErrorMessage('');
         return true;
     };
+    const signIn = () => {
+        fetch(`${apiURL}/token`, {
+            method: 'POST',
+            body: `grant_type=password&username=${username}&password=${password}`,
+        })
+            .then((response) => response.json())
+            .then(async (response) => {
+                if (response.access_token) {
+                    await AsyncStorage.setItem('@token', response.access_token);
+                    navigation.navigate('Home');
+                } else setErrorMessage(response.error_description);
+            })
+            .catch((error) => {
+                console.log(error.message);
+            });
+    };
+    const signUp = () => {
+        const signUpData = {
+            Email: email,
+            UserName: username,
+            NickName: nickname,
+            Password: password,
+            ConfirmPassword: confirmPassword,
+        };
+        fetch(`${apiURL}/api/Account/Register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(signUpData),
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                if (response.ModelState) {
+                    setErrorMessage(response.ModelState.Error[0]);
+                    return;
+                } else signIn();
+            })
+            .catch((error) => {
+                console.log(error.message);
+            });
+    };
 
     // Event handlers
     const handleSignUp = () => {
         if (!isValidSignUpData()) return;
         Keyboard.dismiss();
-        // call API
+        signUp();
     };
     const handleSwitch = () => {
         setErrorMessage('');
@@ -49,7 +97,7 @@ function SignUpScreen({ navigation }) {
         setUsername('');
         setNickname('');
         setPassword('');
-        setConfirmPassowrd('');
+        setConfirmPassword('');
         navigation.goBack();
     };
 
@@ -104,7 +152,7 @@ function SignUpScreen({ navigation }) {
                 label='Nhập lại mật khẩu'
                 secureTextEntry
                 value={confirmPassword}
-                setValue={setConfirmPassowrd}
+                setValue={setConfirmPassword}
                 onSubmitEditing={handleSignUp}
             />
             <Button style={{ marginVertical: 16 }} title='Đăng ký' fluid accent onPress={handleSignUp} />
