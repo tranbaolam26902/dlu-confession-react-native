@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react';
 import { StyleSheet, View, Text, Image, Pressable, Keyboard } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { useStore } from '../store';
 import GlobalStyles from '../assets/styles/GlobalStyles';
 import images from '../assets/images';
 
@@ -8,6 +10,10 @@ import Button from '../components/Button';
 import Input from '../components/Input';
 
 function SignInScreen({ navigation }) {
+    // Global states
+    const [states, dispatch] = useStore();
+    const { apiURL } = states;
+
     // Component's states
     const [errorMessage, setErrorMessage] = useState('');
     const [username, setUsername] = useState('');
@@ -26,12 +32,28 @@ function SignInScreen({ navigation }) {
         setErrorMessage('');
         return true;
     };
+    const signIn = () => {
+        fetch(`${apiURL}/token`, {
+            method: 'POST',
+            body: `grant_type=password&username=${username}&password=${password}`,
+        })
+            .then((response) => response.json())
+            .then(async (response) => {
+                if (response.access_token) {
+                    await AsyncStorage.setItem('@token', response.access_token);
+                    navigation.navigate('Home');
+                } else setErrorMessage(response.error_description);
+            })
+            .catch((error) => {
+                console.log(error.message);
+            });
+    };
 
     // Event handlers
     const handleSignIn = () => {
         if (!isValidSignInData()) return;
         Keyboard.dismiss();
-        // call API
+        signIn();
     };
     const handleSwitch = () => {
         setErrorMessage('');
