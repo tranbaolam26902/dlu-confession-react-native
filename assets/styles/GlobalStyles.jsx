@@ -11,6 +11,7 @@ const colors = {
     secondary: '#6B6B6B',
     secondary90: '#404040',
     gray: '#A7A7B1',
+    gray0: '#D3D3D8',
 };
 
 const GlobalStyles = StyleSheet.create({
