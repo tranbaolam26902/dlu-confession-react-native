@@ -1,7 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { StoreProvider } from './store';
+import GlobalStyles from './assets/styles/GlobalStyles';
+import icons from './assets/icons';
+
 import {
     ChangePasswordScreen,
     CreatePostScreen,
@@ -13,68 +16,112 @@ import {
     ProfileScreen,
     SearchResultScreen,
     SearchScreen,
-    SelectCategoryScreen,
+    CategoryScreen,
     SignInScreen,
     SignUpScreen,
 } from './screens';
+import TabBarIcon from './components/tabbar/TabBarIcon';
+import TabBarLabel from './components/tabbar/TabBarLabel';
 
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
     return (
         <StoreProvider>
             <NavigationContainer>
-                <Stack.Navigator screenOptions={{ headerShown: false }}>
-                    <Stack.Screen name='SignIn' component={SignInScreen} options={{ animation: 'slide_from_right' }} />
-                    <Stack.Screen name='SignUp' component={SignUpScreen} options={{ animation: 'slide_from_right' }} />
-                    <Stack.Screen name='Home' component={HomeScreen} options={{ animation: 'slide_from_right' }} />
-                    <Stack.Screen
-                        name='SelectCategory'
-                        component={SelectCategoryScreen}
-                        options={{ animation: 'slide_from_right' }}
-                    />
-                    <Stack.Screen
-                        name='Popular'
-                        component={PopularScreen}
-                        options={{ animation: 'slide_from_right' }}
-                    />
-                    <Stack.Screen
-                        name='Notification'
-                        component={NotificationScreen}
-                        options={{ animation: 'slide_from_right' }}
-                    />
-                    <Stack.Screen
-                        name='Profile'
-                        component={ProfileScreen}
-                        options={{ animation: 'slide_from_right' }}
-                    />
-                    <Stack.Screen
-                        name='CreatePost'
-                        component={CreatePostScreen}
-                        options={{ animation: 'slide_from_right' }}
-                    />
-                    <Stack.Screen
-                        name='PostDetail'
-                        component={PostDetailScreen}
-                        options={{ animation: 'slide_from_right' }}
-                    />
-                    <Stack.Screen name='Search' component={SearchScreen} options={{ animation: 'slide_from_right' }} />
-                    <Stack.Screen
+                <Tab.Navigator initialRouteName='Home' screenOptions={{ headerShown: false }}>
+                    <Tab.Screen name='SignIn' component={SignInScreen} options={{ tabBarButton: () => null }} />
+                    <Tab.Screen name='SignUp' component={SignUpScreen} options={{ tabBarButton: () => null }} />
+                    <Tab.Screen name='PostDetail' component={PostDetailScreen} options={{ tabBarButton: () => null }} />
+                    <Tab.Screen name='Search' component={SearchScreen} options={{ tabBarButton: () => null }} />
+                    <Tab.Screen
                         name='SearchResult'
                         component={SearchResultScreen}
-                        options={{ animation: 'slide_from_right' }}
+                        options={{ tabBarButton: () => null }}
                     />
-                    <Stack.Screen
+                    <Tab.Screen
                         name='EditProfile'
                         component={EditProfileScreen}
-                        options={{ animation: 'slide_from_right' }}
+                        options={{ tabBarButton: () => null }}
                     />
-                    <Stack.Screen
+                    <Tab.Screen
                         name='ChangePassword'
                         component={ChangePasswordScreen}
-                        options={{ animation: 'slide_from_right' }}
+                        options={{ tabBarButton: () => null }}
                     />
-                </Stack.Navigator>
+                    <Tab.Screen name='CreatePost' component={CreatePostScreen} options={{ tabBarButton: () => null }} />
+
+                    <Tab.Screen
+                        name='Home'
+                        component={HomeScreen}
+                        options={({ route }) => ({
+                            tabBarIcon: ({ focused }) => {
+                                const icon = focused ? icons.homeActive : icons.home;
+                                return <TabBarIcon icon={icon} />;
+                            },
+                            tabBarLabel: ({ focused }) => {
+                                const color = focused ? GlobalStyles.colors.accent : GlobalStyles.colors.secondary;
+                                return <TabBarLabel text={route.name} color={color} />;
+                            },
+                        })}
+                    />
+                    <Tab.Screen
+                        name='Category'
+                        component={CategoryScreen}
+                        options={({ route }) => ({
+                            tabBarIcon: ({ focused }) => {
+                                const icon = focused ? icons.categoryActive : icons.category;
+                                return <TabBarIcon icon={icon} />;
+                            },
+                            tabBarLabel: ({ focused }) => {
+                                const color = focused ? GlobalStyles.colors.accent : GlobalStyles.colors.secondary;
+                                return <TabBarLabel text={route.name} color={color} />;
+                            },
+                        })}
+                    />
+                    <Tab.Screen
+                        name='Popular'
+                        component={PopularScreen}
+                        options={({ route }) => ({
+                            tabBarIcon: ({ focused }) => {
+                                const icon = focused ? icons.popularActive : icons.popular;
+                                return <TabBarIcon icon={icon} />;
+                            },
+                            tabBarLabel: ({ focused }) => {
+                                const color = focused ? GlobalStyles.colors.accent : GlobalStyles.colors.secondary;
+                                return <TabBarLabel text={route.name} color={color} />;
+                            },
+                        })}
+                    />
+                    <Tab.Screen
+                        name='Notification'
+                        component={NotificationScreen}
+                        options={({ route }) => ({
+                            tabBarIcon: ({ focused }) => {
+                                const icon = focused ? icons.notificationActive : icons.notification;
+                                return <TabBarIcon icon={icon} />;
+                            },
+                            tabBarLabel: ({ focused }) => {
+                                const color = focused ? GlobalStyles.colors.accent : GlobalStyles.colors.secondary;
+                                return <TabBarLabel text={route.name} color={color} />;
+                            },
+                        })}
+                    />
+                    <Tab.Screen
+                        name='Profile'
+                        component={ProfileScreen}
+                        options={({ route }) => ({
+                            tabBarIcon: ({ focused }) => {
+                                const icon = focused ? icons.userActive : icons.user;
+                                return <TabBarIcon icon={icon} />;
+                            },
+                            tabBarLabel: ({ focused }) => {
+                                const color = focused ? GlobalStyles.colors.accent : GlobalStyles.colors.secondary;
+                                return <TabBarLabel text={route.name} color={color} />;
+                            },
+                        })}
+                    />
+                </Tab.Navigator>
             </NavigationContainer>
         </StoreProvider>
     );
