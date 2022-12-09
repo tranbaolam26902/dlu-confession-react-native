@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Image, StyleSheet, Text, TouchableOpacity, TouchableOpacityBase, View } from "react-native";
 import { debug } from "react-native-reanimated";
+import icons from "../../assets/icons";
 import images from "../../assets/images";
 import GlobalStyles from "../../assets/styles/GlobalStyles";
 import { useStore } from "../../store";
@@ -51,12 +52,12 @@ function PostFooter({ data }) {
     return (
         <View style={styles.wrapper}>
             <View style={[styles.interact, styles["interact:first-child"]]}>
-                <Image source={images.ic_Comment} style={styles.icon}/>
+                <Image source={icons.comment} style={styles.icon}/>
                 <Text style={styles.total}>{data.TotalCmt}</Text>
             </View>
             <View style={styles.interact}>
                 <TouchableOpacity onPress={()=> {handleLike()}}>
-                    {isLiked ? <Image source={images.ic_Liked}  style={styles.icon}/>: <Image source={images.ic_Like} style={styles.icon}/>}
+                    {isLiked ? <Image source={icons.voteActive}  style={styles.icon}/>: <Image source={icons.vote} style={styles.icon}/>}
                 </TouchableOpacity>
                 <Text style={styles.total}>{data.Like}</Text>
             </View>
