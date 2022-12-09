@@ -31,46 +31,39 @@ function HomeScreen() {
         setRefreshing(true);
         let time = new Date();
         fetch(`${apiURL}/api/post/index`)
-        .then((response) => response.json())
-        .then((responsePosts) => {
-            let time = new Date() - time;
-            setData(responsePosts);
-        });
+            .then((response) => response.json())
+            .then((responsePosts) => {
+                let time = new Date() - time;
+                setData(responsePosts);
+            });
         wait(time).then(() => setRefreshing(false));
     }, []);
     const getPosts = () => {
-      fetch(`${apiURL}/api/post/index`)
-        .then((response) => response.json())
-        .then((responsePosts) => {
-            setData(responsePosts);
-        });
-    }
-    
+        fetch(`${apiURL}/api/post/index`)
+            .then((response) => response.json())
+            .then((responsePosts) => {
+                setData(responsePosts);
+            });
+    };
+
     useEffect(() => {
         getPosts();
     }, []);
 
     return (
         <>
-          <StatusBar backgroundColor={GlobalStyles.colors.white} barStyle={'dark-content'} />
-          <HeaderBar />
-          <FlatList
-            style={styles.wrapper}
-            decelerationRate={'normal'}
-            refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-            data={data}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({item}) => (
-                <PostModal styles={styles.container} data={item} />
-            )}
-          />
-            <ScrollView
-                
-            >
-            </ScrollView>
+            <StatusBar backgroundColor={GlobalStyles.colors.white} barStyle={'dark-content'} />
+            <HeaderBar />
+            <FlatList
+                style={styles.wrapper}
+                decelerationRate={'normal'}
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                data={data}
+                showsHorizontalScrollIndicator={false}
+                renderItem={({ item }) => <PostModal styles={styles.container} data={item} />}
+            />
         </>
-      );
+    );
+}
 
 export default HomeScreen;

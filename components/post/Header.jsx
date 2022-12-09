@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FlatList, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { StretchInX } from "react-native-reanimated";
+import icons from "../../assets/icons";
 import images from "../../assets/images";
 import GlobalStyles from "../../assets/styles/GlobalStyles";
 import { useStore } from "../../store";
@@ -28,7 +29,7 @@ function PostHeader({ data}) {
             </View>
             <Image 
                 style={styles.options}
-                source={images.ic_Options}/>
+                source={icons.optionVertical}/>
             </View>
             <FlatList horizontal={true}
                 data={data.Categories}
