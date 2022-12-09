@@ -8,6 +8,6 @@ export { default as PostDetailScreen } from './PostDetailScreen';
 export { default as ProfileScreen } from './ProfileScreen';
 export { default as SearchResultScreen } from './SearchResultScreen';
 export { default as SearchScreen } from './SearchScreen';
-export { default as SelectCategoryScreen } from './SelectCategoryScreen';
+export { default as CategoryScreen } from './CategoryScreen';
 export { default as SignInScreen } from './SignInScreen';
 export { default as SignUpScreen } from './SignUpScreen';
