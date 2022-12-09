@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     },
 });
 
-function PopularScreen({ navigation, route }) {
+function CategoryScreen({ navigation, route }) {
     // Global states
     const [states, dispatch] = useStore();
     const { apiURL } = states;
@@ -52,10 +52,10 @@ function PopularScreen({ navigation, route }) {
                 showsVerticalScrollIndicator={false}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             >
-                <Text>Popular Screen</Text>
+                <Text>Category Screen</Text>
             </ScrollView>
         </>
     );
 }
 
-export default PopularScreen;
+export default CategoryScreen;
