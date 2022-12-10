@@ -51,7 +51,7 @@ function SignUpScreen({ navigation }) {
             .then(async (response) => {
                 if (response.access_token) {
                     await AsyncStorage.setItem('@token', response.access_token);
-                    navigation.navigate('Home');
+                    navigation.navigate('MainScreen');
                 } else setErrorMessage(response.error_description);
             })
             .catch((error) => {
