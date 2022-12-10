@@ -13,7 +13,6 @@ import {
     SignInScreen,
     SignUpScreen,
     MainScreen,
-    HomeScreen,
 } from './screens';
 
 const Stack = createNativeStackNavigator();
@@ -23,35 +22,56 @@ export default function App() {
         <StoreProvider>
             <NavigationContainer>
                 <Stack.Navigator initialRouteName='SignIn' screenOptions={{ headerShown: false }}>
-                    <Stack.Screen name='SignIn' component={SignInScreen} options={{ tabBarButton: () => null }} />
-                    <Stack.Screen name='SignUp' component={SignUpScreen} options={{ tabBarButton: () => null }} />
+                    <Stack.Screen
+                        name='SignIn'
+                        component={SignInScreen}
+                        options={{ animation: 'slide_from_right', tabBarButton: () => null }}
+                    />
+                    <Stack.Screen
+                        name='SignUp'
+                        component={SignUpScreen}
+                        options={{ animation: 'slide_from_right', tabBarButton: () => null }}
+                    />
                     <Stack.Screen
                         name='PostDetail'
                         component={PostDetailScreen}
-                        options={{ tabBarButton: () => null }}
+                        options={({ route }) => ({
+                            animation: 'slide_from_right',
+                            tabBarButton: () => null,
+                            headerShown: true,
+                            title: `Bài viết của ${route.params.data.NickName}`,
+                        })}
                     />
-                    <Stack.Screen name='Search' component={SearchScreen} options={{ tabBarButton: () => null }} />
+                    <Stack.Screen
+                        name='Search'
+                        component={SearchScreen}
+                        options={{ animation: 'slide_from_right', tabBarButton: () => null }}
+                    />
                     <Stack.Screen
                         name='SearchResult'
                         component={SearchResultScreen}
-                        options={{ tabBarButton: () => null }}
+                        options={{ animation: 'slide_from_right', tabBarButton: () => null }}
                     />
                     <Stack.Screen
                         name='EditProfile'
                         component={EditProfileScreen}
-                        options={{ tabBarButton: () => null }}
+                        options={{ animation: 'slide_from_right', tabBarButton: () => null }}
                     />
                     <Stack.Screen
                         name='ChangePassword'
                         component={ChangePasswordScreen}
-                        options={{ tabBarButton: () => null }}
+                        options={{ animation: 'slide_from_right', tabBarButton: () => null }}
                     />
                     <Stack.Screen
                         name='CreatePost'
                         component={CreatePostScreen}
-                        options={{ tabBarButton: () => null }}
+                        options={{ animation: 'slide_from_right', tabBarButton: () => null }}
                     />
-                    <Stack.Screen name='MainScreen' component={MainScreen} />
+                    <Stack.Screen
+                        name='MainScreen'
+                        component={MainScreen}
+                        options={{ animation: 'slide_from_right' }}
+                    />
                 </Stack.Navigator>
             </NavigationContainer>
         </StoreProvider>
