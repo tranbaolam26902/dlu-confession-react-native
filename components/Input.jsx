@@ -28,19 +28,32 @@ const styles = StyleSheet.create({
 
 const Input = forwardRef(
     (
-        { style, label, placeholder, secureTextEntry, value, setValue, onSubmitEditing, returnKeyType, blurOnSubmit },
+        {
+            style,
+            inputStyle,
+            label,
+            placeholder,
+            secureTextEntry,
+            value,
+            setValue,
+            multiline,
+            onSubmitEditing,
+            returnKeyType,
+            blurOnSubmit,
+        },
         ref,
     ) => {
         return (
             <View style={[style]}>
-                <Text style={styles.label}>{label}</Text>
+                {label ? <Text style={styles.label}>{label}</Text> : null}
                 <TextInput
                     ref={ref}
-                    style={styles.input}
+                    style={[styles.input, inputStyle]}
                     selectionColor={GlobalStyles.colors.textColor}
                     placeholder={placeholder}
                     secureTextEntry={secureTextEntry}
                     value={value}
+                    multiline={multiline}
                     blurOnSubmit={blurOnSubmit}
                     returnKeyType={returnKeyType}
                     onChangeText={(value) => setValue(value)}
