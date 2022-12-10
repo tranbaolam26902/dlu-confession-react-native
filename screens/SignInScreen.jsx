@@ -35,13 +35,13 @@ function SignInScreen({ navigation }) {
     const signIn = () => {
         fetch(`${apiURL}/token`, {
             method: 'POST',
-            body: `grant_type=password&username=${username}&password=${password}`,
+            body: `grant_type=password&username=Admin&password=Admin#123`,
         })
             .then((response) => response.json())
             .then(async (response) => {
                 if (response.access_token) {
                     await AsyncStorage.setItem('@token', response.access_token);
-                    navigation.navigate('MainScreen');
+                    navigation.replace('MainScreen');
                 } else setErrorMessage(response.error_description);
             })
             .catch((error) => {
@@ -51,7 +51,7 @@ function SignInScreen({ navigation }) {
 
     // Event handlers
     const handleSignIn = () => {
-        if (!isValidSignInData()) return;
+        // if (!isValidSignInData()) return;
         Keyboard.dismiss();
         signIn();
     };
