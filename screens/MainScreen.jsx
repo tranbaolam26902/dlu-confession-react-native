@@ -16,7 +16,7 @@ function MainScreen() {
                 options={{
                     tabBarIcon: ({ focused }) => {
                         const icon = focused ? icons.homeActive : icons.home;
-                        return <Image source={icon} />;
+                        return <Image source={icon} style={{ width: 28, height: 28 }} />;
                     },
                     tabBarLabel: () => null,
                 }}
@@ -27,7 +27,7 @@ function MainScreen() {
                 options={{
                     tabBarIcon: ({ focused }) => {
                         const icon = focused ? icons.categoryActive : icons.category;
-                        return <Image source={icon} />;
+                        return <Image source={icon} style={{ width: 28, height: 28 }} />;
                     },
                     tabBarLabel: () => null,
                 }}
@@ -38,7 +38,7 @@ function MainScreen() {
                 options={{
                     tabBarIcon: ({ focused }) => {
                         const icon = focused ? icons.popularActive : icons.popular;
-                        return <Image source={icon} />;
+                        return <Image source={icon} style={{ width: 28, height: 28 }} />;
                     },
                     tabBarLabel: () => null,
                 }}
@@ -49,7 +49,7 @@ function MainScreen() {
                 options={{
                     tabBarIcon: ({ focused }) => {
                         const icon = focused ? icons.notificationActive : icons.notification;
-                        return <Image source={icon} />;
+                        return <Image source={icon} style={{ width: 28, height: 28 }} />;
                     },
                     tabBarLabel: () => null,
                 }}
@@ -60,7 +60,7 @@ function MainScreen() {
                 options={{
                     tabBarIcon: ({ focused }) => {
                         const icon = focused ? icons.userActive : icons.user;
-                        return <Image source={icon} />;
+                        return <Image source={icon} style={{ width: 28, height: 28 }} />;
                     },
                     tabBarLabel: () => null,
                 }}
