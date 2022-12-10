@@ -29,7 +29,7 @@ export default function App() {
     return (
         <StoreProvider>
             <NavigationContainer>
-                <Tab.Navigator initialRouteName='Home' screenOptions={{ headerShown: false }}>
+                <Tab.Navigator initialRouteName='SignIn' screenOptions={{ headerShown: false }}>
                     <Tab.Screen name='SignIn' component={SignInScreen} options={{ tabBarButton: () => null }} />
                     <Tab.Screen name='SignUp' component={SignUpScreen} options={{ tabBarButton: () => null }} />
                     <Tab.Screen name='PostDetail' component={PostDetailScreen} options={{ tabBarButton: () => null }} />
