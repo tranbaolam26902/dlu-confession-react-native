@@ -7,6 +7,7 @@ import GlobalStyles from '../assets/styles/GlobalStyles';
 
 import Post from '../components/post';
 import HeaderBar from '../components/header';
+import images from '../assets/images';
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -19,6 +20,8 @@ function HomeScreen() {
     const [states, dispatch] = useStore();
     const { apiURL } = states;
     const [data, setData] = useState([]);
+    const [token, setToken]= useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     // Component's states
     const [refreshing, setRefreshing] = useState(false);
@@ -38,6 +41,7 @@ function HomeScreen() {
             });
         wait(time).then(() => setRefreshing(false));
     }, []);
+
     const getPosts = () => {
         fetch(`${apiURL}/api/post/index`)
             .then((response) => response.json())
@@ -46,9 +50,31 @@ function HomeScreen() {
             });
     };
 
+    const setUsers = async () => {
+        const getToken = await AsyncStorage.getItem('@token', (err, item) => {
+            return(item);
+        });
+        if (getToken) {
+            fetch(`${apiURL}/api/useraccount/getinfo`, {
+                headers: {
+                    Authorization: getToken,
+                },
+            })
+                .then((response) => response.json())
+                .then( async (responseUser) => {
+                    if (responseUser.Id) {
+                        await AsyncStorage.setItem('@userId', responseUser.Id);
+                    } else setErrorMessage(responseUser.Message);
+                });
+        }
+    };
+
     useEffect(() => {
         getPosts();
+        setUsers();                     
     }, []);
+
+
 
     return (
         <>
