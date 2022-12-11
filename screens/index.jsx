@@ -11,3 +11,4 @@ export { default as SearchScreen } from './SearchScreen';
 export { default as CategoryScreen } from './CategoryScreen';
 export { default as SignInScreen } from './SignInScreen';
 export { default as SignUpScreen } from './SignUpScreen';
+export { default as MainScreen } from './MainScreen';

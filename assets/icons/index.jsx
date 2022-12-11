@@ -16,6 +16,7 @@ const icons = {
     popularActive: require('./popular-active.png'),
     popular: require('./popular.png'),
     search: require('./search.png'),
+    send: require('./send.png'),
     userActive: require('./user-active.png'),
     user: require('./user.png'),
     voteActive: require('./vote-active.png'),

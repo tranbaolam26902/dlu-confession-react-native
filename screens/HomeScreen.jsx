@@ -5,7 +5,7 @@ import { StyleSheet, FlatList, StatusBar, Text, View, RefreshControl } from 'rea
 import { useStore } from '../store';
 import GlobalStyles from '../assets/styles/GlobalStyles';
 
-import PostModal from '../components/post';
+import Post from '../components/post';
 import HeaderBar from '../components/header';
 
 const styles = StyleSheet.create({
@@ -60,7 +60,7 @@ function HomeScreen() {
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                 data={data}
                 showsHorizontalScrollIndicator={false}
-                renderItem={({ item }) => <PostModal styles={styles.container} data={item} />}
+                renderItem={({ item }) => <Post styles={styles.container} data={item} />}
             />
         </>
     );
