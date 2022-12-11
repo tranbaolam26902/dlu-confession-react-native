@@ -5,7 +5,7 @@ import images from '../../assets/images';
 import icons from '../../assets/icons';
 
 import Input from '../Input';
-import IconButton from '../post/IconButton';
+import IconButton from '../IconButton';
 import GlobalStyles from '../../assets/styles/GlobalStyles';
 
 const styles = StyleSheet.create({
