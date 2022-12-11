@@ -55,6 +55,7 @@ function SignInScreen({ navigation }) {
         Keyboard.dismiss();
         signIn();
     };
+    
     const handleSwitch = () => {
         setErrorMessage('');
         setUsername('');

@@ -7,7 +7,7 @@ import GlobalStyles from "../../assets/styles/GlobalStyles";
 import { useStore } from "../../store";
 
 
-function PostHeader({ data}) {
+function Header({ data}) {
     const date = data.CreatedTime.split('-');
     const day = date[2].split('T')[0];
     const month = date[1];
@@ -106,4 +106,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default PostHeader
+export default Header

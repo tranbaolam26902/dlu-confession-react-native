@@ -1,16 +1,16 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import GlobalStyles from "../../assets/styles/GlobalStyles";
-import PostBody from "./Body";
-import PostFooter from "./Footer";
-import PostHeader from "./Header";
+import Body from "./Body";
+import Footer from "./Footer";
+import Header from "./Header";
 
 
 function Post({ data }) {
     return(
         <View style={styles.wrapper}>
-            <PostHeader data={data}/>
-            <PostBody data={data}/>
-            <PostFooter data={data}/>
+            <Header data={data}/>
+            <Body data={data}/>
+            <Footer data={data}/>
         </View>
         
     ); 

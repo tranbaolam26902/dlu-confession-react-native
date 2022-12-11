@@ -4,7 +4,8 @@ import images from '../../assets/images';
 import GlobalStyles from '../../assets/styles/GlobalStyles';
 import { useStore } from '../../store';
 
-function PostBody({ data }) {
+
+function Body({ data}) {
     const [states, dispatch] = useStore();
     const { apiURL, imageURL } = states;
     return (
@@ -43,4 +44,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default PostBody;
+export default Body
