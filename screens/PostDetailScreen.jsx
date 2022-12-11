@@ -31,10 +31,6 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderColor: GlobalStyles.colors.secondary,
     },
-    commentInput: {
-        flexDirection: 'row',
-        flex: 1,
-    },
     comments: {
         paddingHorizontal: 16,
     },
@@ -50,7 +46,7 @@ function PostDetailScreen({ route }) {
                 <Text style={styles.interaction}>{`${data.Like} lượt thích / ${data.TotalCmt} bình luận`}</Text>
             </View>
             <Text style={styles.commentTitle}>Bình luận</Text>
-            <CommentInput style={styles.commentInpu} />
+            <CommentInput />
             <View style={styles.comments}>
                 {data.Comments.length !== 0
                     ? data.Comments.map((comment) => (
