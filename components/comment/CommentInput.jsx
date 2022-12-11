@@ -12,8 +12,7 @@ const styles = StyleSheet.create({
     wrapper: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 8,
-        paddingVertical: 8,
+        marginVertical: 16,
         paddingHorizontal: 16,
     },
     avatar: {
