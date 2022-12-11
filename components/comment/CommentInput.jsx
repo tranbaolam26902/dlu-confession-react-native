@@ -5,15 +5,14 @@ import images from '../../assets/images';
 import icons from '../../assets/icons';
 
 import Input from '../Input';
-import IconButton from '../post/IconButton';
+import IconButton from '../IconButton';
 import GlobalStyles from '../../assets/styles/GlobalStyles';
 
 const styles = StyleSheet.create({
     wrapper: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 8,
-        paddingVertical: 8,
+        marginVertical: 16,
         paddingHorizontal: 16,
     },
     avatar: {

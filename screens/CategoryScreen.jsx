@@ -1,14 +1,35 @@
-import { useCallback, useState } from 'react';
-import { StyleSheet, ScrollView, Text, StatusBar, RefreshControl } from 'react-native';
+import { useEffect, useState } from 'react';
+import { StyleSheet, ScrollView, Text, StatusBar, RefreshControl, Pressable } from 'react-native';
 
 import { useStore } from '../store';
 import GlobalStyles from '../assets/styles/GlobalStyles';
 
 import HeaderBar from '../components/header';
+import Empty from '../components/Empty';
 
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
+        backgroundColor: GlobalStyles.colors.background,
+    },
+    title: {
+        padding: 16,
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: GlobalStyles.colors.secondary,
+    },
+    categoryItem: {
+        marginHorizontal: 16,
+        marginBottom: 8,
+        padding: 16,
+        backgroundColor: GlobalStyles.colors.white,
+        borderWidth: 0.4,
+        borderStyle: 'solid',
+        borderColor: GlobalStyles.colors.gray0,
+        borderRadius: 12,
+    },
+    categoryText: {
+        fontSize: 16,
     },
 });
 
@@ -19,27 +40,33 @@ function CategoryScreen({ navigation, route }) {
 
     // Component's states
     const [refreshing, setRefreshing] = useState(false);
+    const [categories, setCategories] = useState([]);
 
     // Functions
-    const wait = (timeout) => {
-        return new Promise((resolve) => setTimeout(resolve, timeout));
+    const getCategories = () => {
+        fetch(`${apiURL}/api/category/index`)
+            .then((response) => response.json())
+            .then((response) => {
+                setCategories(response);
+            });
     };
-    const onRefresh = useCallback(() => {
+    const onRefresh = () => {
         setRefreshing(true);
-        let time = new Date();
-        // Call API
-        // fetch(`${apiURL}/token`, {
-        //     method: 'POST',
-        //     body: `grant_type=password&username=Admin&password=Admin#123`,
-        // })
-        //     .then((response) => response.json())
-        //     .then((response) => {
-        //         let time = new Date() - time;        // set time for refreshing
-        //         if (response.access_token) {
-        //             console.log(time);
-        //         }
-        //     });
-        wait(1000).then(() => setRefreshing(false));
+        fetch(`${apiURL}/api/category/index`)
+            .then((response) => response.json())
+            .then((response) => {
+                setCategories(response);
+                setRefreshing(false);
+            });
+    };
+    const handlePress = (e, category) => {
+        navigation.navigate('PostsByCategory', {
+            data: category,
+        });
+    };
+
+    useEffect(() => {
+        getCategories();
     }, []);
 
     return (
@@ -52,7 +79,20 @@ function CategoryScreen({ navigation, route }) {
                 showsVerticalScrollIndicator={false}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             >
-                <Text>Category Screen</Text>
+                <Text style={styles.title}>Chọn danh mục</Text>
+                {categories.length !== 0 ? (
+                    categories.map((category) => (
+                        <Pressable
+                            key={category.Id}
+                            style={styles.categoryItem}
+                            onPress={(e) => handlePress(e, category)}
+                        >
+                            <Text style={styles.categoryText}>{category.Name}</Text>
+                        </Pressable>
+                    ))
+                ) : (
+                    <Empty text='Chưa có danh mục!' />
+                )}
             </ScrollView>
         </>
     );
