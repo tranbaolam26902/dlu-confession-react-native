@@ -13,6 +13,7 @@ import {
     SignInScreen,
     SignUpScreen,
     MainScreen,
+    PostsByCategoryScreen,
 } from './screens';
 
 const Stack = createNativeStackNavigator();
@@ -40,6 +41,16 @@ export default function App() {
                             tabBarButton: () => null,
                             headerShown: true,
                             title: `Bài viết của ${route.params.data.NickName}`,
+                        })}
+                    />
+                    <Stack.Screen
+                        name='PostsByCategory'
+                        component={PostsByCategoryScreen}
+                        options={({ route }) => ({
+                            animation: 'slide_from_right',
+                            tabBarButton: () => null,
+                            headerShown: true,
+                            title: `Danh mục ${route.params.data.Name}`,
                         })}
                     />
                     <Stack.Screen
