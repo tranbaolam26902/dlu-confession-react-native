@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { Button, Image, StyleSheet, Text, TouchableOpacity, TouchableOpacityBase, View } from "react-native";
 import { debug } from "react-native-reanimated";
@@ -7,7 +8,7 @@ import GlobalStyles from "../../assets/styles/GlobalStyles";
 import { useStore } from "../../store";
 
 
-function PostFooter({ data }) {
+function Footer({ data }) {
     const [isLiked, setIsLiked] = useState(true);
     const [posts, setPosts] = useState([]);
     const [states, dispatch] = useStore();
@@ -26,12 +27,12 @@ function PostFooter({ data }) {
     const getToken = async() => {
         await AsyncStorage.getItem('@token', (err, item) => {
             setToken(item);
-
+            console.log(item);
         });
     };
 
     const handleLike = () => {
-        if (getToken) {
+        if (getToken()) {
             const formData = new FormData();
             formData.append('id', data.Id);
             fetch(`${apiURL}/api/userpost/like`, {
@@ -41,13 +42,12 @@ function PostFooter({ data }) {
                 },
                 body: formData,
             }).then(() => {
-                
                 setIsLiked(!isLiked);
                 updatePosts();
             });
         }
-    };
 
+    };
 
     return (
         <View style={styles.wrapper}>
@@ -85,5 +85,5 @@ const styles = StyleSheet.create({
 
 });
 
-export default PostFooter;
+export default Footer;
 
