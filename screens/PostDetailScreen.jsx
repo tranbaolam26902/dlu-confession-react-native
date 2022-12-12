@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
         padding: 16,
     },
     interaction: {
+        marginTop: 8,
         fontSize: 14,
         fontStyle: 'italic',
         color: GlobalStyles.colors.secondary,

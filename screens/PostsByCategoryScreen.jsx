@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import { FlatList, RefreshControl } from 'react-native';
+import { FlatList, RefreshControl, View } from 'react-native';
 import { useStore } from '../store';
+
+import GlobalStyles from '../assets/styles/GlobalStyles';
 
 import Post from '../components/post';
 import Empty from '../components/Empty';
@@ -49,7 +51,7 @@ function PostsByCategoryScreen({ route }) {
     }, []);
 
     return (
-        <>
+        <View style={{ flex: 1, backgroundColor: GlobalStyles.colors.background }}>
             {posts.length !== 0 ? (
                 <FlatList
                     decelerationRate={'normal'}
@@ -61,7 +63,7 @@ function PostsByCategoryScreen({ route }) {
             ) : (
                 <Empty text='Chưa có bài viết thuộc danh mục này!' />
             )}
-        </>
+        </View>
     );
 }
 

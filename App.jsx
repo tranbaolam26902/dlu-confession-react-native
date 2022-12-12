@@ -50,7 +50,7 @@ export default function App() {
                             animation: 'slide_from_right',
                             tabBarButton: () => null,
                             headerShown: true,
-                            title: `Danh mục ${route.params.data.Name}`,
+                            title: `${route.params.data.Name}`,
                         })}
                     />
                     <Stack.Screen

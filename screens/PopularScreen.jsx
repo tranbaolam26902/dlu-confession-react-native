@@ -1,59 +1,64 @@
-import { useCallback, useState } from 'react';
-import { StyleSheet, ScrollView, Text, StatusBar, RefreshControl } from 'react-native';
+import { useState, useEffect } from 'react';
+import { StyleSheet, StatusBar, RefreshControl, FlatList } from 'react-native';
 
 import { useStore } from '../store';
 import GlobalStyles from '../assets/styles/GlobalStyles';
 
 import HeaderBar from '../components/header';
+import Post from '../components/post';
 
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
+        backgroundColor: GlobalStyles.colors.background,
     },
 });
 
 function PopularScreen({ navigation, route }) {
     // Global states
     const [states, dispatch] = useStore();
-    const { apiURL } = states;
 
     // Component's states
     const [refreshing, setRefreshing] = useState(false);
+    const [posts, setPosts] = useState([]);
+
+    // Variables
+    const { apiURL } = states;
 
     // Functions
-    const wait = (timeout) => {
-        return new Promise((resolve) => setTimeout(resolve, timeout));
+    const getPopularPosts = () => {
+        fetch(`${apiURL}/api/post/hotpost`)
+            .then((response) => response.json())
+            .then((response) => {
+                setPosts(response);
+            });
     };
-    const onRefresh = useCallback(() => {
+    const onRefresh = () => {
         setRefreshing(true);
-        let time = new Date();
-        // Call API
-        // fetch(`${apiURL}/token`, {
-        //     method: 'POST',
-        //     body: `grant_type=password&username=Admin&password=Admin#123`,
-        // })
-        //     .then((response) => response.json())
-        //     .then((response) => {
-        //         let time = new Date() - time;        // set time for refreshing
-        //         if (response.access_token) {
-        //             console.log(time);
-        //         }
-        //     });
-        wait(1000).then(() => setRefreshing(false));
+        fetch(`${apiURL}/api/post/hotpost`)
+            .then((response) => response.json())
+            .then((response) => {
+                setPosts(response);
+                setRefreshing(false);
+            });
+    };
+
+    useEffect(() => {
+        getPopularPosts();
     }, []);
 
     return (
         <>
             <StatusBar backgroundColor={GlobalStyles.colors.white} barStyle={'dark-content'} />
             <HeaderBar />
-            <ScrollView
+            <FlatList
                 style={styles.wrapper}
                 decelerationRate={'normal'}
-                showsVerticalScrollIndicator={false}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-            >
-                <Text>Popular Screen</Text>
-            </ScrollView>
+                data={posts}
+                showsHorizontalScrollIndicator={false}
+                renderItem={({ item }) => <Post styles={styles.container} data={item} />}
+            />
         </>
     );
 }
