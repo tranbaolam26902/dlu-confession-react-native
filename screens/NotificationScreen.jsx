@@ -37,6 +37,7 @@ function NotificationScreen() {
     // Component's states
     const [refreshing, setRefreshing] = useState(false);
     const [notifications, setNotifications] = useState([]);
+    const [showReadAll, setShowReadAll] = useState(false);
     const [token, setToken] = useState();
 
     // Functions
@@ -56,6 +57,13 @@ function NotificationScreen() {
                 .then((response) => {
                     setNotifications(response);
                 });
+    };
+    const isNewNotifications = () => {
+        let result = false;
+        notifications.map((notification) => {
+            if (notification.IsRead === false) result = true;
+        });
+        return result;
     };
 
     // Event handlers
@@ -89,6 +97,11 @@ function NotificationScreen() {
         getNotifications();
     }, [token]);
 
+    useEffect(() => {
+        if (isNewNotifications()) setShowReadAll(true);
+        else setShowReadAll(false);
+    }, [notifications]);
+
     return (
         <>
             <StatusBar backgroundColor={GlobalStyles.colors.white} barStyle={'dark-content'} />
@@ -103,7 +116,7 @@ function NotificationScreen() {
                 ListHeaderComponent={() => (
                     <View style={styles.header}>
                         <Text style={styles.title}>Thông báo</Text>
-                        <Button title='Đánh dấu tất cả là đã đọc' text onPress={handleReadAll} />
+                        {showReadAll ? <Button title='Đánh dấu tất cả là đã đọc' text onPress={handleReadAll} /> : null}
                     </View>
                 )}
                 ListEmptyComponent={() => <Empty text='Không có thông báo nào gần đây' />}
