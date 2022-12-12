@@ -40,7 +40,7 @@ function SignInScreen({ navigation }) {
             .then((response) => response.json())
             .then(async (response) => {
                 if (response.access_token) {
-                    await AsyncStorage.setItem('@token', response.access_token);
+                    await AsyncStorage.setItem('@token', 'bearer ' + response.access_token);
                     navigation.replace('MainScreen');
                 } else setErrorMessage(response.error_description);
             })
