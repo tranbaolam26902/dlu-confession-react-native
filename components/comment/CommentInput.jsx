@@ -82,6 +82,7 @@ function CommentInput({ data, setData }) {
 
     // Event handlers
     const handleComment = () => {
+        if (comment === '') return;
         const formData = new FormData();
         formData.append(
             'comment',
