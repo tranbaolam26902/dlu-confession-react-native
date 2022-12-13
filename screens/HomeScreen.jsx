@@ -11,6 +11,7 @@ import HeaderBar from '../components/header';
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
+        backgroundColor: GlobalStyles.colors.background,
     },
 });
 
