@@ -45,28 +45,17 @@ function CommentInput({ data, setData }) {
     const [states, dispatch] = useStore();
 
     // Component's value
-    const [token, setToken] = useState('');
+    const [token, setToken] = useState();
     const [comment, setComment] = useState('');
-    const [avatar, setAvatar] = useState();
 
     // Variables
-    const { apiURL, avatarURL } = states;
+    const { apiURL, avatarURL, userInformation } = states;
 
     // Functions
-    const getUserInformation = async () => {
+    const getToken = async () =>
         await AsyncStorage.getItem('@token', (err, item) => {
-            fetch(`${apiURL}/api/useraccount/getinfo`, {
-                headers: {
-                    Authorization: item,
-                },
-            })
-                .then((response) => response.json())
-                .then((response) => {
-                    setAvatar(`${avatarURL}${response.UserProfile.Avatar}`);
-                });
             setToken(item);
         });
-    };
     const getPostById = (id) => {
         const formData = new FormData();
         formData.append('id', id);
@@ -106,12 +95,12 @@ function CommentInput({ data, setData }) {
     };
 
     useEffect(() => {
-        getUserInformation();
+        getToken();
     }, []);
 
     return (
         <View style={styles.wrapper}>
-            <Image source={{ uri: avatar }} style={styles.avatar} />
+            <Image source={{ uri: `${avatarURL}${userInformation.UserProfile.Avatar}` }} style={styles.avatar} />
             <Input
                 style={styles.inputWrapper}
                 inputStyle={styles.input}
