@@ -34,6 +34,7 @@ const Input = forwardRef(
             label,
             placeholder,
             secureTextEntry,
+            numberOfLines,
             value,
             setValue,
             multiline,
@@ -53,6 +54,7 @@ const Input = forwardRef(
                     placeholder={placeholder}
                     secureTextEntry={secureTextEntry}
                     value={value}
+                    numberOfLines={numberOfLines}
                     multiline={multiline}
                     blurOnSubmit={blurOnSubmit}
                     returnKeyType={returnKeyType}
