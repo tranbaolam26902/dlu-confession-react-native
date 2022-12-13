@@ -95,7 +95,12 @@ export default function App() {
                     <Stack.Screen
                         name='CreatePost'
                         component={CreatePostScreen}
-                        options={{ animation: 'slide_from_right', tabBarButton: () => null }}
+                        options={{
+                            animation: 'slide_from_right',
+                            tabBarButton: () => null,
+                            headerShown: true,
+                            title: 'Tạo bài viết',
+                        }}
                     />
                     <Stack.Screen
                         name='MainScreen'

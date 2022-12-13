@@ -30,7 +30,7 @@ function HeaderBar() {
         navigation.navigate('Search');
     };
     const handleAdd = () => {
-        // navigation.replace('Search');
+        navigation.navigate('CreatePost');
     };
     const handleMenu = () => {
         // navigation.replace('Search');
