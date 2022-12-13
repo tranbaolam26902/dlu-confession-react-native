@@ -1,4 +1,4 @@
-import { StyleSheet, View, Image, Pressable } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -100,7 +100,7 @@ function Notification({ data }) {
     }, [data]);
 
     return (
-        <Pressable style={[styles.wrapper, notification.IsRead ? null : styles.isRead]} onPress={handlePress}>
+        <TouchableOpacity style={[styles.wrapper, notification.IsRead ? null : styles.isRead]} onPress={handlePress}>
             <View>
                 <Image source={{ uri: `${avatarURL}${notification.Avatar}` }} style={styles.avatar} />
                 <Image
@@ -110,7 +110,7 @@ function Notification({ data }) {
             </View>
             <Body data={notification} />
             <Option />
-        </Pressable>
+        </TouchableOpacity>
     );
 }
 
