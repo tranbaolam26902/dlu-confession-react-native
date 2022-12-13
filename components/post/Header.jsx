@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
+
 import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-import { useStore } from '../../store';
-import GlobalStyles from '../../assets/styles/GlobalStyles';
 import icons from '../../assets/icons';
+import GlobalStyles from '../../assets/styles/GlobalStyles';
+import { useStore } from '../../store';
 
 import IconButton from '../IconButton';
 
@@ -44,7 +45,7 @@ function Header({ data }) {
     const [states, dispatch] = useStore();
     const { avatarURL } = states;
 
-    // Component's states
+    // Component's useState
     const [date, setDate] = useState('');
 
     // Variables
@@ -60,13 +61,15 @@ function Header({ data }) {
         return `${day} tháng ${month}, ${year}`;
     };
 
+    
     // Event handlers
     const handleNavigate = () => {
         if (route.name !== 'Profile')
             navigation.push('Profile', { data: { Name: data.NickName, Id: data.PostHistories[0].AccountId } });
         else navigation.navigate('Profile', { data: { Name: data.NickName, Id: data.PostHistories[0].AccountId } });
     };
-
+  
+    // Component's useEffect
     useEffect(() => {
         setDate(convertDate(data.CreatedTime));
     }, []);

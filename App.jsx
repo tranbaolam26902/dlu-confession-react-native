@@ -67,12 +67,20 @@ export default function App() {
                     <Stack.Screen
                         name='Search'
                         component={SearchScreen}
-                        options={{ animation: 'slide_from_right', tabBarButton: () => null }}
+                        options={{
+                            animation: 'slide_from_right',
+                            headerShown: true,
+                        }}
                     />
                     <Stack.Screen
                         name='SearchResult'
                         component={SearchResultScreen}
-                        options={{ animation: 'slide_from_right', tabBarButton: () => null }}
+                        options={{
+                            animation: 'slide_from_right',
+                            tabBarButton: () => null,
+                            title: 'Kết quả tìm kiếm',
+                            headerShown: true,
+                        }}
                     />
                     <Stack.Screen
                         name='EditProfile'

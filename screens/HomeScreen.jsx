@@ -67,7 +67,7 @@ function HomeScreen() {
     return (
         <>
             <StatusBar backgroundColor={GlobalStyles.colors.white} barStyle={'dark-content'} />
-            <HeaderBar />
+            <HeaderBar/>
             <FlatList
                 style={styles.wrapper}
                 decelerationRate={'normal'}

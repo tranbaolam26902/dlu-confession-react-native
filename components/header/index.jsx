@@ -5,6 +5,7 @@ import icons from '../../assets/icons';
 import images from '../../assets/images';
 
 import HeaderButton from './HeaderButton';
+import { useNavigation } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -24,13 +25,23 @@ const styles = StyleSheet.create({
 });
 
 function HeaderBar() {
+    const navigation = useNavigation();
+    const handleSreach = () => {
+        navigation.navigate('Search');
+    };
+    const handleAdd = () => {
+        // navigation.replace('Search');
+    };
+    const handleMenu = () => {
+        // navigation.replace('Search');
+    };
     return (
         <View style={styles.wrapper}>
             <Image source={images.logoText} />
             <View style={styles.action}>
-                <HeaderButton icon={icons.search} />
-                <HeaderButton icon={icons.add} style={{ marginHorizontal: 8 }} />
-                <HeaderButton icon={icons.menu} />
+                <HeaderButton icon={icons.search} onPress={handleSreach}/>
+                <HeaderButton icon={icons.add} style={{ marginHorizontal: 8 }} onPress={handleAdd}/>
+                <HeaderButton icon={icons.menu} onPress={handleMenu}/>
             </View>
         </View>
     );
