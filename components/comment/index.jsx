@@ -1,6 +1,7 @@
 import { StyleSheet, View, Image } from 'react-native';
 
 import { useStore } from '../../store';
+import GlobalStyles from '../../assets/styles/GlobalStyles';
 
 import Body from './Body';
 import Footer from './Footer';
@@ -14,6 +15,9 @@ const styles = StyleSheet.create({
         marginRight: 8,
         width: 40,
         height: 40,
+        borderWidth: 0.4,
+        borderStyles: 'solid',
+        borderColor: GlobalStyles.colors.gray0,
         borderRadius: 12,
     },
     main: {
