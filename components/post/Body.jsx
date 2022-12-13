@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet, View, Text, FlatList, TouchableOpacity } from 'react-native';
 
 import GlobalStyles from '../../assets/styles/GlobalStyles';
@@ -21,6 +21,14 @@ const styles = StyleSheet.create({
 function Body({ data }) {
     // Variables
     const navigation = useNavigation();
+    const route = useRoute();
+
+    // Event handlers
+    const handleNavigate = () => {
+        if (route.name !== 'PostDetail') navigation.push('PostDetail', { data: data });
+        else navigation.navigate('PostDetail', { data: data });
+    };
+
     return (
         <View style={styles.wrapper}>
             <View style={{ marginLeft: -4 }}>
@@ -32,7 +40,7 @@ function Body({ data }) {
                     renderItem={({ item }) => <CategoryTag data={item} />}
                 />
             </View>
-            <TouchableOpacity onPress={() => navigation.navigate('PostDetail', { data: data })}>
+            <TouchableOpacity onPress={handleNavigate}>
                 <Text numberOfLines={2} style={[styles.text, styles.title]}>
                     {data.Title}
                 </Text>

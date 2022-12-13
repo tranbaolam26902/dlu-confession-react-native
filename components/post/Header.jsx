@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { useStore } from '../../store';
 import GlobalStyles from '../../assets/styles/GlobalStyles';
@@ -49,6 +49,7 @@ function Header({ data }) {
 
     // Variables
     const navigation = useNavigation();
+    const route = useRoute();
 
     // Functions
     const convertDate = (date) => {
@@ -61,7 +62,9 @@ function Header({ data }) {
 
     // Event handlers
     const handleNavigate = () => {
-        navigation.navigate('Profile', { data: { Name: data.NickName, Id: data.PostHistories[0].AccountId } });
+        if (route.name !== 'Profile')
+            navigation.push('Profile', { data: { Name: data.NickName, Id: data.PostHistories[0].AccountId } });
+        else navigation.navigate('Profile', { data: { Name: data.NickName, Id: data.PostHistories[0].AccountId } });
     };
 
     useEffect(() => {

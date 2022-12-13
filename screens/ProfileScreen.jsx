@@ -61,7 +61,7 @@ function ProfileScreen({ route }) {
 
     useEffect(() => {
         getUserInformation();
-    }, []);
+    }, [route]);
 
     return (
         <>

@@ -89,7 +89,7 @@ function Footer({ data }) {
             <TouchableOpacity
                 style={styles.action}
                 onPress={() => {
-                    navigation.navigate('PostDetail', { data: post });
+                    navigation.push('PostDetail', { data: post });
                 }}
             >
                 <Image source={icons.comment} />
