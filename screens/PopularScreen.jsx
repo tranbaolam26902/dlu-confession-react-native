@@ -31,16 +31,12 @@ function PopularScreen({ navigation, route }) {
             .then((response) => response.json())
             .then((response) => {
                 setPosts(response);
+                setRefreshing(false);
             });
     };
     const onRefresh = () => {
         setRefreshing(true);
-        fetch(`${apiURL}/api/post/hotpost`)
-            .then((response) => response.json())
-            .then((response) => {
-                setPosts(response);
-                setRefreshing(false);
-            });
+        getPopularPosts();
     };
 
     useEffect(() => {
@@ -56,7 +52,7 @@ function PopularScreen({ navigation, route }) {
                 decelerationRate={'normal'}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                 data={posts}
-                showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => <Post styles={styles.container} data={item} />}
             />
         </>

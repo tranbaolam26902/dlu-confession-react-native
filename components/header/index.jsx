@@ -5,6 +5,7 @@ import icons from '../../assets/icons';
 import images from '../../assets/images';
 
 import HeaderButton from './HeaderButton';
+import { useNavigation } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -24,14 +25,15 @@ const styles = StyleSheet.create({
 });
 
 function HeaderBar() {
+    const navigation = useNavigation();
     const handleSreach = () => {
-        console.log("Tìm kiếm");
+        navigation.navigate('Search');
     };
     const handleAdd = () => {
-        console.log("Add");
+        // navigation.replace('Search');
     };
     const handleMenu = () => {
-        console.log("Menu");
+        // navigation.replace('Search');
     };
     return (
         <View style={styles.wrapper}>

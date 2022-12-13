@@ -1,4 +1,4 @@
-import { StyleSheet, Image, Pressable } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 const styles = StyleSheet.create({
     wrapper: {},
@@ -6,9 +6,9 @@ const styles = StyleSheet.create({
 
 function IconButton({ icon, style, iconWidth, iconHeight, onPress }) {
     return (
-        <Pressable style={[styles.wrapper, style]} onPress={onPress}>
+        <TouchableOpacity style={[styles.wrapper, style]} onPress={onPress}>
             <Image source={icon} style={{ width: iconWidth ? iconWidth : 28, height: iconHeight ? iconHeight : 28 }} />
-        </Pressable>
+        </TouchableOpacity>
     );
 }
 

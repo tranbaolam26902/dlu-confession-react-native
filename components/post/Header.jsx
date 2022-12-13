@@ -1,107 +1,73 @@
-import { useState } from "react";
-import { FlatList, Image, Pressable, StyleSheet, Text, View } from "react-native";
-import icons from "../../assets/icons";
-import GlobalStyles from "../../assets/styles/GlobalStyles";
-import { useStore } from "../../store";
+import { useEffect, useState } from 'react';
+import { FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import icons from '../../assets/icons';
+import GlobalStyles from '../../assets/styles/GlobalStyles';
+import { useStore } from '../../store';
 
+import IconButton from '../IconButton';
 
-function Header({ data}) {
-    const date = data.CreatedTime.split('-');
-    const day = date[2].split('T')[0];
-    const month = date[1];
-    
+const styles = StyleSheet.create({
+    wrapper: {
+        flexDirection: 'row',
+        alignContent: 'center',
+    },
+    avatar: {
+        width: 40,
+        height: 40,
+        borderWidth: 0.4,
+        borderStyles: 'solid',
+        borderColor: GlobalStyles.colors.gray0,
+        borderRadius: 12,
+    },
+    information: {
+        flex: 1,
+        marginHorizontal: 8,
+    },
+    name: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: GlobalStyles.colors.textColor,
+    },
+    date: {
+        fontSize: 12,
+        color: GlobalStyles.colors.secondary,
+    },
+    option: {
+        alignSelf: 'center',
+    },
+});
+
+function Header({ data }) {
+    // Global states
     const [states, dispatch] = useStore();
-    const { apiURL, avatarURL } = states;
+    const { avatarURL } = states;
+
+    // Component's states
+    const [date, setDate] = useState('');
+
+    // Functions
+    const convertDate = (date) => {
+        const temp = date.split('-');
+        const year = temp[0];
+        const month = temp[1];
+        const day = temp[2].split('T')[0];
+        return `${day} tháng ${month}, ${year}`;
+    };
+
+    useEffect(() => {
+        setDate(convertDate(data.CreatedTime));
+    }, []);
 
     return (
-        <View >
-            <View style={styles.wrapper}>
+        <View style={styles.wrapper}>
+            <Image source={{ uri: `${avatarURL}${data.Avatar}` }} style={styles.avatar} />
             <View style={styles.information}>
-                <Image 
-                    style={styles.logo}
-                    source={{uri:`${avatarURL}${data.Avatar}`}} />
-                    <View style={styles.info_detail}>
-                        <Text style={styles.nickName}>{data.NickName}</Text>
-                        <Text style>{day + ' tháng ' + month}</Text>
-                    </View>
+                <Text style={styles.name}>{data.NickName}</Text>
+                <Text style={styles.date}>{date}</Text>
             </View>
-            <Image 
-                style={styles.options}
-                source={icons.optionVertical}/>
-            </View>
-            <FlatList horizontal={true}
-                data={data.Categories}
-                showsHorizontalScrollIndicator={false}
-                style={styles.category_Wrap}
-                renderItem={({item}) => (
-                    <Text style={[styles.category, styles["category:first-child"]]}>{item.Name}</Text>
-                )}
-                />
+            <IconButton icon={icons.optionVertical} style={styles.option} />
         </View>
     );
 }
 
-const styles = StyleSheet.create({
-    
-    wrapper: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    text: {
-        marginRight: 4,
-        fontSize: 16,
-        color: GlobalStyles.colors.textColor,
-    },
-    logo: {
-        width: 40,
-        height: 40,
-        borderRadius: 12,
-    },
-    information: {
-        flexDirection: 'row',
-       
-    },
-    info_detail: {
-        paddingStart: 16,
-    },
-    nickName: {
-        color: GlobalStyles.colors.secondary,
-        fontSize: 18,
-        fontWeight: "600", 
-    },
-    time : {
-        color: GlobalStyles.colors.secondary,
-        fontSize: 12, 
-    },
-    options: {
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    category_Wrap: {
-        marginVertical: 16,
-    },
-    category: {
-        fontSize: 14,
-        lineHeight: 16,
-        paddingHorizontal: 8,
-        paddingVertical: 4,
-        backgroundColor: GlobalStyles.colors.primary,
-        borderRadius: 16,
-        marginEnd: 12,
-        marginVertical: 1, 
-        textAlign: "justify",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.23,
-        shadowRadius: 16,
-        elevation: 4,
-    },
-    'category:first-child': {
-        marginStart: 4,
-    }
-});
-
-export default Header
+export default Header;

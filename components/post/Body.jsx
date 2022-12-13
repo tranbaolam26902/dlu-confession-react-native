@@ -1,47 +1,47 @@
-import { FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native';
-import { StretchInX } from 'react-native-reanimated';
-import images from '../../assets/images';
+import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, View, Text, FlatList, TouchableOpacity } from 'react-native';
+
 import GlobalStyles from '../../assets/styles/GlobalStyles';
-import { useStore } from '../../store';
+import CategoryTag from '../CategoryTag';
 
+const styles = StyleSheet.create({
+    wrapper: {
+        marginTop: 4,
+        marginBottom: 8,
+    },
+    title: {
+        fontWeight: 'bold',
+    },
+    text: {
+        fontSize: 16,
+        color: GlobalStyles.colors.textColor,
+    },
+});
 
-function Body({ data}) {
-    const [states, dispatch] = useStore();
-    const { apiURL, imageURL } = states;
+function Body({ data }) {
+    // Variables
+    const navigation = useNavigation();
     return (
-        <View>
-            <Text numberOfLines={2} style={styles.title}>
-                {data.Title}
-            </Text>
-            <Text numberOfLines={4} style={styles.content}>
-                {data.Content}
-            </Text>
-            <View>
-                {data.Pictures.map((picture) => {
-                    return (
-                        <Image style={styles.logo} key={picture.Id} source={{ uri: `${imageURL}${picture.Path}` }} />
-                    );
-                })}
+        <View style={styles.wrapper}>
+            <View style={{ marginLeft: -4 }}>
+                <FlatList
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    overScrollMode={'never'}
+                    data={data.Categories}
+                    renderItem={({ item }) => <CategoryTag data={item} />}
+                />
             </View>
+            <TouchableOpacity onPress={() => navigation.navigate('PostDetail', { data: data })}>
+                <Text numberOfLines={2} style={[styles.text, styles.title]}>
+                    {data.Title}
+                </Text>
+                <Text numberOfLines={4} style={styles.text}>
+                    {data.Content}
+                </Text>
+            </TouchableOpacity>
         </View>
     );
 }
 
-const styles = StyleSheet.create({
-    wrapper: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: 16,
-    },
-    title: {
-        color: GlobalStyles.colors.secondary,
-        fontSize: 18,
-        fontWeight: '600',
-        marginEnd: 8,
-    },
-    content: {
-        fontSize: 16,
-    },
-});
-
-export default Body
+export default Body;

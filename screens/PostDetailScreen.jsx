@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { StyleSheet, ScrollView, View, Text } from 'react-native';
 
 import GlobalStyles from '../assets/styles/GlobalStyles';
@@ -38,7 +39,12 @@ const styles = StyleSheet.create({
 });
 
 function PostDetailScreen({ route }) {
-    const data = route.params.data;
+    const [data, setData] = useState(route.params.data);
+
+    useEffect(() => {
+        setData(route.params.data);
+    }, []);
+
     return (
         <ScrollView showsHorizontalScrollIndicator={false} style={styles.wrapper}>
             <View style={styles.post}>
@@ -47,7 +53,7 @@ function PostDetailScreen({ route }) {
                 <Text style={styles.interaction}>{`${data.Like} lượt thích / ${data.TotalCmt} bình luận`}</Text>
             </View>
             <Text style={styles.commentTitle}>Bình luận</Text>
-            <CommentInput />
+            <CommentInput data={data} setData={setData} />
             <View style={styles.comments}>
                 {data.Comments.length !== 0
                     ? data.Comments.map((comment) => (
