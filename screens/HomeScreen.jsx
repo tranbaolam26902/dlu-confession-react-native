@@ -73,7 +73,7 @@ function HomeScreen() {
                 decelerationRate={'normal'}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                 data={data}
-                showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => <Post styles={styles.container} data={item} />}
             />
         </>
