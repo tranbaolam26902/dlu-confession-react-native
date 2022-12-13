@@ -1,13 +1,12 @@
+import { useEffect, useState } from 'react';
+import { StyleSheet, FlatList, StatusBar, RefreshControl } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect, useState, useCallback } from 'react';
-import { StyleSheet, FlatList, StatusBar, Text, View, RefreshControl } from 'react-native';
 
 import { useStore } from '../store';
 import GlobalStyles from '../assets/styles/GlobalStyles';
 
 import Post from '../components/post';
 import HeaderBar from '../components/header';
-import images from '../assets/images';
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -18,29 +17,24 @@ const styles = StyleSheet.create({
 function HomeScreen() {
     // Global states
     const [states, dispatch] = useStore();
-    const { apiURL } = states;
-    const [data, setData] = useState([]);
-    const [token, setToken]= useState('');
-    const [errorMessage, setErrorMessage] = useState('');
 
     // Component's states
     const [refreshing, setRefreshing] = useState(false);
+    const [data, setData] = useState([]);
+
+    // Variables
+    const { apiURL } = states;
 
     // Functions
-    const wait = (timeout) => {
-        return new Promise((resolve) => setTimeout(resolve, timeout));
-    };
-    const onRefresh = useCallback(() => {
+    const onRefresh = () => {
         setRefreshing(true);
-        let time = new Date();
         fetch(`${apiURL}/api/post/index`)
             .then((response) => response.json())
             .then((responsePosts) => {
-                let time = new Date() - time;
                 setData(responsePosts);
+                setRefreshing(false);
             });
-        wait(time).then(() => setRefreshing(false));
-    }, []);
+    };
 
     const getPosts = () => {
         fetch(`${apiURL}/api/post/index`)
@@ -50,18 +44,18 @@ function HomeScreen() {
             });
     };
 
-    const setUsers = async () => {
-        const getToken = await AsyncStorage.getItem('@token', (err, item) => {
-            return(item);
+    const setUserId = async () => {
+        const token = await AsyncStorage.getItem('@token', (err, item) => {
+            return item;
         });
-        if (getToken) {
+        if (token) {
             fetch(`${apiURL}/api/useraccount/getinfo`, {
                 headers: {
-                    Authorization: getToken,
+                    Authorization: token,
                 },
             })
                 .then((response) => response.json())
-                .then( async (responseUser) => {
+                .then(async (responseUser) => {
                     if (responseUser.Id) {
                         await AsyncStorage.setItem('@userId', responseUser.Id);
                     } else setErrorMessage(responseUser.Message);
@@ -71,10 +65,8 @@ function HomeScreen() {
 
     useEffect(() => {
         getPosts();
-        setUsers();                     
+        setUserId();
     }, []);
-
-
 
     return (
         <>
