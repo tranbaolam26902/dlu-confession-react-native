@@ -24,13 +24,22 @@ const styles = StyleSheet.create({
 });
 
 function HeaderBar() {
+    const handleSreach = () => {
+        console.log("Tìm kiếm");
+    };
+    const handleAdd = () => {
+        console.log("Add");
+    };
+    const handleMenu = () => {
+        console.log("Menu");
+    };
     return (
         <View style={styles.wrapper}>
             <Image source={images.logoText} />
             <View style={styles.action}>
-                <HeaderButton icon={icons.search} />
-                <HeaderButton icon={icons.add} style={{ marginHorizontal: 8 }} />
-                <HeaderButton icon={icons.menu} />
+                <HeaderButton icon={icons.search} onPress={handleSreach}/>
+                <HeaderButton icon={icons.add} style={{ marginHorizontal: 8 }} onPress={handleAdd}/>
+                <HeaderButton icon={icons.menu} onPress={handleMenu}/>
             </View>
         </View>
     );
