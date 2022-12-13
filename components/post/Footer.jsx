@@ -82,7 +82,7 @@ function Footer({ data }) {
         getToken();
         getUserId();
         setPost(data);
-    }, []);
+    }, [data]);
 
     return (
         <View style={styles.wrapper}>

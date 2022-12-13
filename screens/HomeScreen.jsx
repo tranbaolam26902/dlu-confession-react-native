@@ -28,12 +28,7 @@ function HomeScreen() {
     // Functions
     const onRefresh = () => {
         setRefreshing(true);
-        fetch(`${apiURL}/api/post/index`)
-            .then((response) => response.json())
-            .then((responsePosts) => {
-                setData(responsePosts);
-                setRefreshing(false);
-            });
+        getPosts();
     };
 
     const getPosts = () => {
@@ -41,6 +36,7 @@ function HomeScreen() {
             .then((response) => response.json())
             .then((responsePosts) => {
                 setData(responsePosts);
+                setRefreshing(false);
             });
     };
 
