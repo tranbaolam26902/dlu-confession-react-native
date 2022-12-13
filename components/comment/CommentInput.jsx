@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Image, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import images from '../../assets/images';
+import { useStore } from '../../store';
+import GlobalStyles from '../../assets/styles/GlobalStyles';
 import icons from '../../assets/icons';
 
 import Input from '../Input';
 import IconButton from '../IconButton';
-import GlobalStyles from '../../assets/styles/GlobalStyles';
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -19,6 +20,9 @@ const styles = StyleSheet.create({
         marginTop: 2,
         width: 40,
         height: 40,
+        borderWidth: 0.4,
+        borderStyles: 'solid',
+        borderColor: GlobalStyles.colors.gray0,
         borderRadius: 12,
     },
     inputWrapper: {
@@ -36,13 +40,78 @@ const styles = StyleSheet.create({
     },
 });
 
-function CommentInput() {
+function CommentInput({ data, setData }) {
+    // Global states
+    const [states, dispatch] = useStore();
+
     // Component's value
+    const [token, setToken] = useState('');
     const [comment, setComment] = useState('');
+    const [avatar, setAvatar] = useState();
+
+    // Variables
+    const { apiURL, avatarURL } = states;
+
+    // Functions
+    const getUserInformation = async () => {
+        await AsyncStorage.getItem('@token', (err, item) => {
+            fetch(`${apiURL}/api/useraccount/getinfo`, {
+                headers: {
+                    Authorization: item,
+                },
+            })
+                .then((response) => response.json())
+                .then((response) => {
+                    setAvatar(`${avatarURL}${response.UserProfile.Avatar}`);
+                });
+            setToken(item);
+        });
+    };
+    const getPostById = (id) => {
+        const formData = new FormData();
+        formData.append('id', id);
+        fetch(`${apiURL}/api/post/getpostbyid`, {
+            method: 'POST',
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                setData(response);
+            });
+    };
+
+    // Event handlers
+    const handleComment = () => {
+        if (comment === '') return;
+        const formData = new FormData();
+        formData.append(
+            'comment',
+            JSON.stringify({
+                Content: comment,
+                PostId: data.Id,
+            }),
+        );
+        fetch(`${apiURL}/api/usercomment/create`, {
+            method: 'POST',
+            headers: {
+                Authorization: token,
+            },
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                getPostById(response.PostId);
+                setComment('');
+            });
+    };
+
+    useEffect(() => {
+        getUserInformation();
+    }, []);
 
     return (
         <View style={styles.wrapper}>
-            <Image source={images.avatar} style={styles.avatar} />
+            <Image source={{ uri: avatar }} style={styles.avatar} />
             <Input
                 style={styles.inputWrapper}
                 inputStyle={styles.input}
@@ -51,7 +120,7 @@ function CommentInput() {
                 setValue={setComment}
                 multiline
             />
-            <IconButton icon={icons.send} style={styles.button} />
+            <IconButton icon={icons.send} style={styles.button} onPress={handleComment} />
         </View>
     );
 }

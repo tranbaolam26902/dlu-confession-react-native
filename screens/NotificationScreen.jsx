@@ -56,6 +56,7 @@ function NotificationScreen() {
                 .then((response) => response.json())
                 .then((response) => {
                     setNotifications(response);
+                    setRefreshing(false);
                 });
     };
     const isNewNotifications = () => {
@@ -69,16 +70,7 @@ function NotificationScreen() {
     // Event handlers
     const onRefresh = async () => {
         setRefreshing(true);
-        fetch(`${apiURL}/api/UserNotify/index`, {
-            headers: {
-                Authorization: token,
-            },
-        })
-            .then((response) => response.json())
-            .then((response) => {
-                setNotifications(response);
-                setRefreshing(false);
-            });
+        getNotifications();
     };
     const handleReadAll = () => {
         fetch(`${apiURL}/api/UserNotify/ReadAll`, {

@@ -1,4 +1,4 @@
-import { Text, Pressable } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 import { StyleSheet } from 'react-native';
 
 import GlobalStyles from '../assets/styles/GlobalStyles';
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 
 function Button({ style, title, fluid, outline, accent, text, textAccent, onPress }) {
     return (
-        <Pressable style={[!fluid ? styles.wrapper : null, style]} onPress={onPress}>
+        <TouchableOpacity style={[!fluid ? styles.wrapper : null, style]} onPress={onPress}>
             <Text
                 style={[
                     styles.button,
@@ -60,7 +60,7 @@ function Button({ style, title, fluid, outline, accent, text, textAccent, onPres
             >
                 {title}
             </Text>
-        </Pressable>
+        </TouchableOpacity>
     );
 }
 
