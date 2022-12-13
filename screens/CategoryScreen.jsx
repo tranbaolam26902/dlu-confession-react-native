@@ -48,16 +48,12 @@ function CategoryScreen({ navigation, route }) {
             .then((response) => response.json())
             .then((response) => {
                 setCategories(response);
+                setRefreshing(false);
             });
     };
     const onRefresh = () => {
         setRefreshing(true);
-        fetch(`${apiURL}/api/category/index`)
-            .then((response) => response.json())
-            .then((response) => {
-                setCategories(response);
-                setRefreshing(false);
-            });
+        getCategories();
     };
     const handlePress = (e, category) => {
         navigation.navigate('PostsByCategory', {
