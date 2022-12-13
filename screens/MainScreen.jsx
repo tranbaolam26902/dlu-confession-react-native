@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import icons from '../assets/icons';
 
-import { HomeScreen, CategoryScreen, PopularScreen, NotificationScreen, ProfileScreen } from '../screens';
+import { HomeScreen, CategoryScreen, PopularScreen, NotificationScreen, UserProfileScreen } from '../screens';
 
 const Tab = createBottomTabNavigator();
 
@@ -55,8 +55,8 @@ function MainScreen() {
                 }}
             />
             <Tab.Screen
-                name='Profile'
-                component={ProfileScreen}
+                name='UserProfile'
+                component={UserProfileScreen}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         const icon = focused ? icons.userActive : icons.user;

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, FlatList, StatusBar, RefreshControl } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { useStore } from '../store';
+import { useStore, actions } from '../store';
 import GlobalStyles from '../assets/styles/GlobalStyles';
 
 import Post from '../components/post';
@@ -11,6 +11,7 @@ import HeaderBar from '../components/header';
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
+        backgroundColor: GlobalStyles.colors.background,
     },
 });
 
@@ -52,9 +53,8 @@ function HomeScreen() {
             })
                 .then((response) => response.json())
                 .then(async (responseUser) => {
-                    if (responseUser.Id) {
-                        await AsyncStorage.setItem('@userId', responseUser.Id);
-                    } else setErrorMessage(responseUser.Message);
+                    if (responseUser.Id) await AsyncStorage.setItem('@userId', responseUser.Id);
+                    dispatch(actions.setUserInformation(responseUser));
                 });
         }
     };

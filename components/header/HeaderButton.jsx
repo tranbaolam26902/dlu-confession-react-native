@@ -1,4 +1,5 @@
-import { StyleSheet, Pressable, Image, TouchableOpacity } from 'react-native';
+
+import { StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 import GlobalStyles from '../../assets/styles/GlobalStyles';
 

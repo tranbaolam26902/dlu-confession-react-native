@@ -43,7 +43,7 @@ function PostDetailScreen({ route }) {
 
     useEffect(() => {
         setData(route.params.data);
-    }, []);
+    }, [route]);
 
     return (
         <ScrollView showsHorizontalScrollIndicator={false} style={styles.wrapper}>

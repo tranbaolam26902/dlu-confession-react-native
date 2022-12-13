@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
-import { FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native';
+
+import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+
 import icons from '../../assets/icons';
 import GlobalStyles from '../../assets/styles/GlobalStyles';
 import { useStore } from '../../store';
@@ -45,6 +48,10 @@ function Header({ data }) {
     // Component's useState
     const [date, setDate] = useState('');
 
+    // Variables
+    const navigation = useNavigation();
+    const route = useRoute();
+
     // Functions
     const convertDate = (date) => {
         const temp = date.split('-');
@@ -54,6 +61,14 @@ function Header({ data }) {
         return `${day} tháng ${month}, ${year}`;
     };
 
+    
+    // Event handlers
+    const handleNavigate = () => {
+        if (route.name !== 'Profile')
+            navigation.push('Profile', { data: { Name: data.NickName, Id: data.PostHistories[0].AccountId } });
+        else navigation.navigate('Profile', { data: { Name: data.NickName, Id: data.PostHistories[0].AccountId } });
+    };
+  
     // Component's useEffect
     useEffect(() => {
         setDate(convertDate(data.CreatedTime));
@@ -61,11 +76,13 @@ function Header({ data }) {
 
     return (
         <View style={styles.wrapper}>
-            <Image source={{ uri: `${avatarURL}${data.Avatar}` }} style={styles.avatar} />
-            <View style={styles.information}>
+            <TouchableOpacity onPress={handleNavigate}>
+                <Image source={{ uri: `${avatarURL}${data.Avatar}` }} style={styles.avatar} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleNavigate} style={styles.information}>
                 <Text style={styles.name}>{data.NickName}</Text>
                 <Text style={styles.date}>{date}</Text>
-            </View>
+            </TouchableOpacity>
             <IconButton icon={icons.optionVertical} style={styles.option} />
         </View>
     );

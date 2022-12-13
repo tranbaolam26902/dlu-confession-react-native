@@ -48,7 +48,7 @@ function PostsByCategoryScreen({ route }) {
 
     useEffect(() => {
         getPostsByCategory();
-    }, []);
+    }, [route]);
 
     return (
         <View style={{ flex: 1, backgroundColor: GlobalStyles.colors.background }}>
