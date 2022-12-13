@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 
 import { useStore } from '../../store';
@@ -36,10 +36,12 @@ function Comment({ data, style }) {
 
     // Variables
     const navigation = useNavigation();
+    const route = useRoute();
 
     // Event handlers
     const handleNavigate = () => {
-        navigation.navigate('Profile', { data: { Name: data.NickName, Id: data.AccountId } });
+        if (route.name !== 'Profile') navigation.push('Profile', { data: { Name: data.NickName, Id: data.AccountId } });
+        else navigation.navigate('Profile', { data: { Name: data.NickName, Id: data.AccountId } });
     };
 
     return (
