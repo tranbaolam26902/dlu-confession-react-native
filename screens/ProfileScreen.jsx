@@ -1,59 +1,83 @@
-import { useCallback, useState } from 'react';
-import { StyleSheet, ScrollView, Text, StatusBar, RefreshControl } from 'react-native';
+import { useState, useEffect } from 'react';
+import { StyleSheet, StatusBar, RefreshControl, FlatList } from 'react-native';
 
 import { useStore } from '../store';
 import GlobalStyles from '../assets/styles/GlobalStyles';
 
-import HeaderBar from '../components/header';
+import Post from '../components/post';
+import ProfileSection from '../components/ProfileSection';
+import Empty from '../components/Empty';
 
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
+        backgroundColor: GlobalStyles.colors.background,
     },
 });
 
-function ProfileScreen({ navigation, route }) {
+function ProfileScreen({ route }) {
     // Global states
     const [states, dispatch] = useStore();
-    const { apiURL } = states;
 
     // Component's states
     const [refreshing, setRefreshing] = useState(false);
+    const [posts, setPosts] = useState([]);
+    const [userInformation, setUserInformation] = useState();
+
+    // Variables
+    const { apiURL } = states;
 
     // Functions
-    const wait = (timeout) => {
-        return new Promise((resolve) => setTimeout(resolve, timeout));
+    const getUserInformation = () => {
+        const formData = new FormData();
+        formData.append('id', route.params.data.Id);
+        fetch(`${apiURL}/api/Account/GetUserInfo`, {
+            method: 'POST',
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                setUserInformation(response);
+                getPersonalPosts(response.UserProfile.Id);
+            });
     };
-    const onRefresh = useCallback(() => {
+    const getPersonalPosts = (id) => {
+        const formData = new FormData();
+        formData.append('id', id);
+        fetch(`${apiURL}/api/post/PostByUser`, {
+            method: 'POST',
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                setPosts(response);
+                setRefreshing(false);
+            });
+    };
+    const onRefresh = () => {
         setRefreshing(true);
-        let time = new Date();
-        // Call API
-        // fetch(`${apiURL}/token`, {
-        //     method: 'POST',
-        //     body: `grant_type=password&username=Admin&password=Admin#123`,
-        // })
-        //     .then((response) => response.json())
-        //     .then((response) => {
-        //         let time = new Date() - time;        // set time for refreshing
-        //         if (response.access_token) {
-        //             console.log(time);
-        //         }
-        //     });
-        wait(1000).then(() => setRefreshing(false));
+        getPersonalPosts(userInformation.UserProfile.Id);
+    };
+
+    useEffect(() => {
+        getUserInformation();
     }, []);
 
     return (
         <>
             <StatusBar backgroundColor={GlobalStyles.colors.white} barStyle={'dark-content'} />
-            <HeaderBar />
-            <ScrollView
+            <FlatList
                 style={styles.wrapper}
                 decelerationRate={'normal'}
-                showsVerticalScrollIndicator={false}
+                ListHeaderComponent={() => {
+                    if (userInformation) return <ProfileSection data={userInformation} totalPosts={posts.length} />;
+                }}
+                ListEmptyComponent={() => <Empty text='Chưa có bài viết!' />}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-            >
-                <Text>Profile Screen</Text>
-            </ScrollView>
+                data={posts}
+                showsVerticalScrollIndicator={false}
+                renderItem={({ item }) => <Post styles={styles.container} data={item} />}
+            />
         </>
     );
 }
