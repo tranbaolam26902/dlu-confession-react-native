@@ -42,7 +42,7 @@ function Header({ data }) {
     const [states, dispatch] = useStore();
     const { avatarURL } = states;
 
-    // Component's states
+    // Component's useState
     const [date, setDate] = useState('');
 
     // Functions
@@ -54,6 +54,7 @@ function Header({ data }) {
         return `${day} tháng ${month}, ${year}`;
     };
 
+    // Component's useEffect
     useEffect(() => {
         setDate(convertDate(data.CreatedTime));
     }, []);

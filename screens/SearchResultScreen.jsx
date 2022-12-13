@@ -4,8 +4,10 @@ import Empty from '../components/Empty';
 import Post from '../components/post';
 
 function SearchResultScreen({ route }) {
+    // Component's useState
     const [data, setData] = useState(route.params.data);
 
+    // Component's useEffect
     useEffect(() => {
         setData(route.params.data);
     }, []);
@@ -17,9 +19,7 @@ function SearchResultScreen({ route }) {
                     decelerationRate={'normal'}
                     data={data}
                     showsVerticalScrollIndicator={false}
-                    renderItem={({ item }) => (
-                        <Post data={item}/>
-                    )}
+                    renderItem={({ item }) => <Post data={item} />}
                 />
             ) : (
                 <Empty text='Không tìm thấy bài viết!' />

@@ -8,10 +8,8 @@ const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
         flexDirection: 'row',
-        marginTop: 4,
-        marginBottom: 8,
         backgroundColor: GlobalStyles.colors.background,
-        paddingVertical: 8,
+        paddingVertical: 12,
         paddingHorizontal: 16,
     },
     avatar: {
@@ -24,30 +22,35 @@ const styles = StyleSheet.create({
     },
     title: {
         fontWeight: 'bold',
-        marginStart: 8
+        marginStart: 8,
     },
     text: {
-        fontSize: 16,
+        fontSize: 14,
         color: GlobalStyles.colors.textColor,
     },
     information: {
         flex: 1,
         marginHorizontal: 8,
-    }
+    },
 });
 
 function SearchScreen({ navigation }) {
+    // Global states
     const [states] = useStore();
     const { apiURL, avatarURL } = states;
+
+    // Component's states
     const [keyword, setKeyword] = useState('');
     const [searchResults, setSearchResults] = useState([]);
 
+    // Event handlers
     const handleSearch = (keyword) => {
         if (keyword !== '') {
             setKeyword(keyword);
         }
     };
 
+    // Component's effect
     useEffect(() => {
         navigation.setOptions({
             headerSearchBarOptions: {
@@ -71,11 +74,10 @@ function SearchScreen({ navigation }) {
                             .then((response) => response.json())
                             .then((responseSearchResults) => {
                                 if (responseSearchResults.length !== 0) {
-                                    navigation.navigate('SearchResult', {data: responseSearchResults});
+                                    navigation.navigate('SearchResult', { data: responseSearchResults });
                                 }
                             });
                     }
-                    
                 },
             },
         });
@@ -104,24 +106,24 @@ function SearchScreen({ navigation }) {
     return (
         <Pressable>
             {searchResults.length !== 0 ? (
-                    <FlatList
-                        decelerationRate={'normal'}
-                        data={searchResults}
-                        showsVerticalScrollIndicator={false}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity
-                                style={styles.wrapper}
-                                onPress={() => navigation.navigate('PostDetail', { data: item })}
-                            >
-                                <Image source={{ uri: `${avatarURL}${item.Avatar}` }} style={styles.avatar} />
-                                <View style={styles.information}>
-                                    <Text numberOfLines={2} style={[styles.text, styles.title]}>
-                                        {item.Title}
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
-                        )}
-                    />
+                <FlatList
+                    decelerationRate={'normal'}
+                    data={searchResults}
+                    showsVerticalScrollIndicator={false}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity
+                            style={styles.wrapper}
+                            onPress={() => navigation.navigate('PostDetail', { data: item })}
+                        >
+                            <Image source={{ uri: `${avatarURL}${item.Avatar}` }} style={styles.avatar} />
+                            <View style={styles.information}>
+                                <Text numberOfLines={2} style={[styles.text, styles.title]}>
+                                    {item.Title}
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    )}
+                />
             ) : (
                 <Empty text='Không tìm thấy bài viết!' />
             )}
