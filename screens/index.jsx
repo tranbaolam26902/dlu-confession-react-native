@@ -5,6 +5,7 @@ export { default as HomeScreen } from './HomeScreen';
 export { default as NotificationScreen } from './NotificationScreen';
 export { default as PopularScreen } from './PopularScreen';
 export { default as PostDetailScreen } from './PostDetailScreen';
+export { default as UserProfileScreen } from './UserProfileScreen';
 export { default as ProfileScreen } from './ProfileScreen';
 export { default as SearchResultScreen } from './SearchResultScreen';
 export { default as SearchScreen } from './SearchScreen';
