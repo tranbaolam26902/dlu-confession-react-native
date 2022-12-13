@@ -1,20 +1,20 @@
-import { SET_SHOW_SIGN_IN_MODAL } from './constants';
+import { SET_USER_INFORMATION } from './constants';
 
-const apiURL = 'https://localhost:30123';
+const apiURL = 'https://0f91-113-180-209-221.ngrok.io';
 
 const initStates = {
     apiURL: apiURL,
     imageURL: `${apiURL}/image/post?id=`,
     avatarURL: `${apiURL}/image/user?id=`,
-    showSignInModal: false,
+    userInformation: {},
 };
 
 function reducer(state, action) {
     switch (action.type) {
-        case SET_SHOW_SIGN_IN_MODAL:
+        case SET_USER_INFORMATION:
             return {
                 ...state,
-                showSignInModal: action.payload,
+                userInformation: action.payload,
             };
         default:
             throw new Error('Error');

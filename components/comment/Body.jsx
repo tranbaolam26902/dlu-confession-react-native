@@ -1,4 +1,5 @@
-import { StyleSheet, View, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 import GlobalStyles from '../../assets/styles/GlobalStyles';
 import Option from './Option';
@@ -27,10 +28,20 @@ const styles = StyleSheet.create({
 });
 
 function Body({ data }) {
+    // Variables
+    const navigation = useNavigation();
+
+    // Event handlers
+    const handleNavigate = () => {
+        navigation.navigate('Profile', { data: { Name: data.NickName, Id: data.AccountId } });
+    };
     return (
         <View style={styles.wrapper}>
             <View style={styles.body}>
-                <Text style={[styles.text, styles.title]}>{data.NickName}</Text>
+                <TouchableOpacity onPress={handleNavigate}>
+                    <Text style={[styles.text, styles.title]}>{data.NickName}</Text>
+                </TouchableOpacity>
+
                 <Text style={styles.text}>{data.Content}</Text>
             </View>
             <Option data={data} />

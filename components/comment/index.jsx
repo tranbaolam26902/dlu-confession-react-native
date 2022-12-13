@@ -1,4 +1,5 @@
-import { StyleSheet, View, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 
 import { useStore } from '../../store';
 import GlobalStyles from '../../assets/styles/GlobalStyles';
@@ -33,9 +34,19 @@ function Comment({ data, style }) {
     const [states, dispatch] = useStore();
     const { avatarURL } = states;
 
+    // Variables
+    const navigation = useNavigation();
+
+    // Event handlers
+    const handleNavigate = () => {
+        navigation.navigate('Profile', { data: { Name: data.NickName, Id: data.AccountId } });
+    };
+
     return (
         <View style={[styles.wrapper, style]}>
-            <Image source={{ uri: `${avatarURL}${data.Avatar}` }} style={styles.avatar} />
+            <TouchableOpacity onPress={handleNavigate}>
+                <Image source={{ uri: `${avatarURL}${data.Avatar}` }} style={styles.avatar} />
+            </TouchableOpacity>
             <View style={styles.main}>
                 <Body data={data} />
                 <Footer data={data} />

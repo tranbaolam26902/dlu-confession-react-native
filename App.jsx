@@ -14,6 +14,7 @@ import {
     SignUpScreen,
     MainScreen,
     PostsByCategoryScreen,
+    ProfileScreen,
 } from './screens';
 
 const Stack = createNativeStackNavigator();
@@ -51,6 +52,16 @@ export default function App() {
                             tabBarButton: () => null,
                             headerShown: true,
                             title: `${route.params.data.Name}`,
+                        })}
+                    />
+                    <Stack.Screen
+                        name='Profile'
+                        component={ProfileScreen}
+                        options={({ route }) => ({
+                            animation: 'slide_from_right',
+                            tabBarButton: () => null,
+                            headerShown: true,
+                            title: `Trang cá nhân của ${route.params.data.Name}`,
                         })}
                     />
                     <Stack.Screen
