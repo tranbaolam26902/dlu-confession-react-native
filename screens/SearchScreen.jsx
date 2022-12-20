@@ -106,27 +106,25 @@ function SearchScreen({ navigation }) {
     }, [keyword]);
 
     return (
-        <Pressable>
-            <FlatList
-                decelerationRate={'normal'}
-                data={searchResults}
-                showsVerticalScrollIndicator={false}
-                ListEmptyComponent={() => <Empty text='Không tìm thấy bài viết!' />}
-                renderItem={({ item }) => (
-                    <TouchableOpacity
-                        style={styles.wrapper}
-                        onPress={() => navigation.navigate('PostDetail', { data: item })}
-                    >
-                        <Image source={{ uri: `${avatarURL}${item.Avatar}` }} style={styles.avatar} />
-                        <View style={styles.information}>
-                            <Text numberOfLines={2} style={[styles.text, styles.title]}>
-                                {item.Title}
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                )}
-            />
-        </Pressable>
+        <FlatList
+            decelerationRate={'normal'}
+            data={searchResults}
+            showsVerticalScrollIndicator={false}
+            ListEmptyComponent={() => <Empty text='Không tìm thấy bài viết!' />}
+            renderItem={({ item }) => (
+                <TouchableOpacity
+                    style={styles.wrapper}
+                    onPress={() => navigation.navigate('PostDetail', { data: item })}
+                >
+                    <Image source={{ uri: `${avatarURL}${item.Avatar}` }} style={styles.avatar} />
+                    <View style={styles.information}>
+                        <Text numberOfLines={2} style={[styles.text, styles.title]}>
+                            {item.Title}
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+            )}
+        />
     );
 }
 
