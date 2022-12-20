@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as ImagePicker from 'expo-image-picker';
 
 import { useStore } from '../store';
 import GlobalStyles from '../assets/styles/GlobalStyles';
+import icons from '../assets/icons';
 
 import Button from '../components/Button';
 import Input from '../components/Input';
@@ -43,6 +45,57 @@ const styles = StyleSheet.create({
     dropdownItemSelected: {
         fontWeight: 'bold',
     },
+    addImage: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginTop: 8,
+        marginBottom: 12,
+    },
+    addImageButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    addImageIcon: {
+        marginRight: 8,
+    },
+    addImageText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: GlobalStyles.colors.secondary,
+    },
+    uploadImages: {
+        marginBottom: 16,
+        paddingBottom: 6,
+    },
+    image: {
+        marginRight: 8,
+        width: 120,
+        height: 120,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: GlobalStyles.colors.gray0,
+        borderRadius: 12,
+    },
+    private: {
+        marginTop: -24,
+        marginBottom: 48,
+    },
+    privateToggle: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    privateText: {
+        marginLeft: 8,
+        fontSize: 16,
+        color: GlobalStyles.colors.secondary,
+    },
+    privateDescription: {
+        marginTop: -6,
+        fontSize: 14,
+        fontStyle: 'italic',
+        color: GlobalStyles.colors.secondary,
+    },
     footer: {
         flexDirection: 'row',
         padding: 16,
@@ -69,6 +122,8 @@ function CreatePostScreen({ navigation }) {
     const [categories, setCategories] = useState([]);
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+    const [images, setImages] = useState([]);
+    const [isPrivate, setIsPrivate] = useState(true);
 
     // Variables
     const { apiURL } = states;
@@ -104,6 +159,19 @@ function CreatePostScreen({ navigation }) {
         }).then(() => {
             navigation.navigate('Home', { data: true });
         });
+    };
+    const handleAddImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsMultipleSelection: true,
+            quality: 1,
+        });
+        const temp = [];
+        result.assets.map((asset) => {
+            temp.push(asset.uri);
+        });
+        setImages(temp);
+        console.log(temp);
     };
 
     useEffect(() => {
@@ -145,6 +213,32 @@ function CreatePostScreen({ navigation }) {
                     value={content}
                     setValue={setContent}
                 />
+                <View style={styles.addImage}>
+                    <TouchableOpacity style={styles.addImageButton} onPress={handleAddImage}>
+                        <Image source={icons.addImage} style={styles.addImageIcon} />
+                        <Text style={styles.addImageText}>Thêm hình ảnh</Text>
+                    </TouchableOpacity>
+                    {images.length !== 0 ? <Button title='Xóa tất cả' text /> : null}
+                </View>
+                {/* {images.length !== 0 ? ( */}
+                <ScrollView style={styles.uploadImages} horizontal={true}>
+                    {images.map((image, index) => (
+                        <Image key={index} source={{ uri: image }} />
+                    ))}
+                </ScrollView>
+                {/* ) : null} */}
+                <View style={styles.private}>
+                    <TouchableOpacity style={styles.privateToggle} onPress={() => setIsPrivate(!isPrivate)}>
+                        <Switch
+                            trackColor={{ true: '#AFEF9B' }}
+                            thumbColor={isPrivate ? GlobalStyles.colors.accent : null}
+                            value={isPrivate}
+                            onValueChange={() => setIsPrivate(!isPrivate)}
+                        />
+                        <Text style={styles.privateText}>Ẩn danh</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.privateDescription}>(Người khác sẽ không biết bạn là người đăng bài)</Text>
+                </View>
             </ScrollView>
             <View style={styles.footer}>
                 <Button title='Hủy' outline fluid style={styles.button} onPress={() => navigation.goBack()} />
