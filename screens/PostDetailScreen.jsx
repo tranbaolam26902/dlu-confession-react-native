@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
         padding: 16,
     },
     interaction: {
-        marginTop: 8,
         fontSize: 14,
         fontStyle: 'italic',
         color: GlobalStyles.colors.secondary,
@@ -46,7 +45,7 @@ function PostDetailScreen({ route }) {
     }, [route]);
 
     return (
-        <ScrollView showsHorizontalScrollIndicator={false} style={styles.wrapper}>
+        <ScrollView nestedScrollEnabled={true} showsHorizontalScrollIndicator={false} style={styles.wrapper}>
             <View style={styles.post}>
                 <PostHeader data={data} />
                 <PostBody data={data} />
