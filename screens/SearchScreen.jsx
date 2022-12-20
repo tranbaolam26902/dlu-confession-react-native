@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { FlatList, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import GlobalStyles from '../assets/styles/GlobalStyles';
-import Empty from '../components/Empty';
+
 import { useStore } from '../store';
+import GlobalStyles from '../assets/styles/GlobalStyles';
+
+import Empty from '../components/Empty';
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -105,28 +107,25 @@ function SearchScreen({ navigation }) {
 
     return (
         <Pressable>
-            {searchResults.length !== 0 ? (
-                <FlatList
-                    decelerationRate={'normal'}
-                    data={searchResults}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity
-                            style={styles.wrapper}
-                            onPress={() => navigation.navigate('PostDetail', { data: item })}
-                        >
-                            <Image source={{ uri: `${avatarURL}${item.Avatar}` }} style={styles.avatar} />
-                            <View style={styles.information}>
-                                <Text numberOfLines={2} style={[styles.text, styles.title]}>
-                                    {item.Title}
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
-                    )}
-                />
-            ) : (
-                <Empty text='Không tìm thấy bài viết!' />
-            )}
+            <FlatList
+                decelerationRate={'normal'}
+                data={searchResults}
+                showsVerticalScrollIndicator={false}
+                ListEmptyComponent={() => <Empty text='Không tìm thấy bài viết!' />}
+                renderItem={({ item }) => (
+                    <TouchableOpacity
+                        style={styles.wrapper}
+                        onPress={() => navigation.navigate('PostDetail', { data: item })}
+                    >
+                        <Image source={{ uri: `${avatarURL}${item.Avatar}` }} style={styles.avatar} />
+                        <View style={styles.information}>
+                            <Text numberOfLines={2} style={[styles.text, styles.title]}>
+                                {item.Title}
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                )}
+            />
         </Pressable>
     );
 }

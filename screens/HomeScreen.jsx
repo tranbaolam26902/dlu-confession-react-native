@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     },
 });
 
-function HomeScreen() {
+function HomeScreen({ route }) {
     // Global states
     const [states, dispatch] = useStore();
 
@@ -64,10 +64,16 @@ function HomeScreen() {
         setUserId();
     }, []);
 
+    useEffect(() => {
+        try {
+            if (route.params.data) getPosts();
+        } catch {}
+    }, [route]);
+
     return (
         <>
             <StatusBar backgroundColor={GlobalStyles.colors.white} barStyle={'dark-content'} />
-            <HeaderBar/>
+            <HeaderBar />
             <FlatList
                 style={styles.wrapper}
                 decelerationRate={'normal'}

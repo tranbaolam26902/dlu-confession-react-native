@@ -26,11 +26,11 @@ const styles = StyleSheet.create({
 
 function HeaderBar() {
     const navigation = useNavigation();
-    const handleSreach = () => {
+    const handleSearch = () => {
         navigation.navigate('Search');
     };
     const handleAdd = () => {
-        // navigation.replace('Search');
+        navigation.navigate('CreatePost');
     };
     const handleMenu = () => {
         // navigation.replace('Search');
@@ -39,9 +39,9 @@ function HeaderBar() {
         <View style={styles.wrapper}>
             <Image source={images.logoText} />
             <View style={styles.action}>
-                <HeaderButton icon={icons.search} onPress={handleSreach}/>
-                <HeaderButton icon={icons.add} style={{ marginHorizontal: 8 }} onPress={handleAdd}/>
-                <HeaderButton icon={icons.menu} onPress={handleMenu}/>
+                <HeaderButton icon={icons.search} onPress={handleSearch} />
+                <HeaderButton icon={icons.add} style={{ marginHorizontal: 8 }} onPress={handleAdd} />
+                <HeaderButton icon={icons.menu} onPress={handleMenu} />
             </View>
         </View>
     );
