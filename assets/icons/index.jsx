@@ -5,6 +5,7 @@ const icons = {
     categoryActive: require('./category-active.png'),
     category: require('./category.png'),
     comment: require('./comment.png'),
+    delete: require('./delete.png'),
     homeActive: require('./home-active.png'),
     home: require('./home.png'),
     menu: require('./menu.png'),
