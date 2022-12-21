@@ -10,12 +10,21 @@ import icons from '../assets/icons';
 
 import Button from '../components/Button';
 import Input from '../components/Input';
+import IconButton from '../components/IconButton';
 
 const styles = StyleSheet.create({
     body: {
         flex: 1,
         padding: 16,
         backgroundColor: GlobalStyles.colors.background,
+    },
+    error: {
+        marginBottom: 8,
+        paddingVertical: 8,
+        fontSize: 16,
+        color: GlobalStyles.colors.red,
+        fontStyle: 'italic',
+        textAlign: 'center',
     },
     label: {
         paddingLeft: 16,
@@ -50,7 +59,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         marginTop: 8,
-        marginBottom: 12,
+        marginBottom: 16,
     },
     addImageButton: {
         flexDirection: 'row',
@@ -76,6 +85,13 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderColor: GlobalStyles.colors.gray0,
         borderRadius: 12,
+    },
+    deleteImage: {
+        position: 'absolute',
+        top: 8,
+        right: 16,
+        backgroundColor: GlobalStyles.colors.secondary,
+        borderRadius: 999,
     },
     private: {
         marginTop: -24,
@@ -118,6 +134,7 @@ function CreatePostScreen({ navigation }) {
     // Component's states
     const [token, setToken] = useState('');
     const [open, setOpen] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const [categoryIds, setCategoryIds] = useState([]);
     const [categories, setCategories] = useState([]);
     const [title, setTitle] = useState('');
@@ -140,25 +157,54 @@ function CreatePostScreen({ navigation }) {
                 setCategories(response);
             });
     };
+    const isValidatePostData = () => {
+        setErrorMessage('');
+        if (categoryIds.length === 0) {
+            setErrorMessage('Vui lòng chọn ít nhất 01 danh mục!');
+            return false;
+        }
+        if (title === '') {
+            setErrorMessage('Vui lòng nhập tiêu đề cho bài viết!');
+            return false;
+        }
+        if (categoryIds.length === 0 || title === '') return false;
+        return true;
+    };
 
     // Event handlers
     const handleCreate = () => {
+        if (!isValidatePostData()) return;
         const formData = new FormData();
         const postData = {
             Title: title,
             Content: content,
             SelectedCategories: categoryIds,
+            PrivateMode: isPrivate,
         };
         formData.append('Post', JSON.stringify(postData));
+        if (images.length !== 0) {
+            images.map((image) => {
+                let uri = 'file:///' + image.uri.split('file:/').join('');
+                formData.append('File', {
+                    uri: uri,
+                    type: `${image.type}/jpg`,
+                    name: uri.split('/').pop(),
+                });
+            });
+        }
         fetch(`${apiURL}/api/userpost/create`, {
             method: 'POST',
             headers: {
                 Authorization: token,
             },
             body: formData,
-        }).then(() => {
-            navigation.navigate('Home', { data: true });
-        });
+        })
+            .then(() => {
+                navigation.navigate('Home', { data: true });
+            })
+            .catch((e) => {
+                console.log(e);
+            });
     };
     const handleAddImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -166,12 +212,13 @@ function CreatePostScreen({ navigation }) {
             allowsMultipleSelection: true,
             quality: 1,
         });
-        const temp = [];
-        result.assets.map((asset) => {
-            temp.push(asset.uri);
-        });
-        setImages(temp);
-        console.log(temp);
+        setImages([...images, ...result.assets]);
+    };
+    const handleDeleteImages = () => {
+        setImages([]);
+    };
+    const handleDeleteImage = (e, image) => {
+        setImages(images.filter((i) => i.assetId !== image.assetId));
     };
 
     useEffect(() => {
@@ -182,6 +229,7 @@ function CreatePostScreen({ navigation }) {
     return (
         <>
             <ScrollView style={styles.body} nestedScrollEnabled={true}>
+                {errorMessage !== '' ? <Text style={styles.error}>{errorMessage}</Text> : null}
                 <Text style={styles.label}>Danh mục</Text>
                 <DropDownPicker
                     schema={{ label: 'Name', value: 'Id' }}
@@ -218,15 +266,24 @@ function CreatePostScreen({ navigation }) {
                         <Image source={icons.addImage} style={styles.addImageIcon} />
                         <Text style={styles.addImageText}>Thêm hình ảnh</Text>
                     </TouchableOpacity>
-                    {images.length !== 0 ? <Button title='Xóa tất cả' text /> : null}
+                    {images.length !== 0 ? <Button title='Xóa tất cả' text onPress={handleDeleteImages} /> : null}
                 </View>
-                {/* {images.length !== 0 ? ( */}
-                <ScrollView style={styles.uploadImages} horizontal={true}>
-                    {images.map((image, index) => (
-                        <Image key={index} source={{ uri: image }} />
-                    ))}
-                </ScrollView>
-                {/* ) : null} */}
+                {images.length !== 0 ? (
+                    <ScrollView style={styles.uploadImages} horizontal={true}>
+                        {images.map((image) => (
+                            <TouchableOpacity key={image.assetId}>
+                                <Image source={{ uri: image.uri }} style={styles.image} />
+                                <IconButton
+                                    icon={icons.delete}
+                                    style={styles.deleteImage}
+                                    iconWidth={28}
+                                    iconHeight={28}
+                                    onPress={(e) => handleDeleteImage(e, image)}
+                                />
+                            </TouchableOpacity>
+                        ))}
+                    </ScrollView>
+                ) : null}
                 <View style={styles.private}>
                     <TouchableOpacity style={styles.privateToggle} onPress={() => setIsPrivate(!isPrivate)}>
                         <Switch
