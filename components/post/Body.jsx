@@ -65,9 +65,11 @@ function Body({ data }) {
             {route.name === 'PostDetail' ? (
                 <View>
                     <Text style={[styles.text, styles.title]}>{data.Title}</Text>
-                    <Text style={styles.text}>{data.Content.replace(/\n+/g, '\n').split('\n')}</Text>
+                    {data.Content ? (
+                        <Text style={styles.text}>{data.Content.replace(/\n+/g, '\n').split('\n')}</Text>
+                    ) : null}
                     {data.Pictures.map((image) => {
-                        return <Image source={{ uri: `${imageURL}${image.Path}`}} key={image.Id} style={styles.img} />;
+                        return <Image source={{ uri: `${imageURL}${image.Path}` }} key={image.Id} style={styles.img} />;
                     })}
                 </View>
             ) : (
@@ -75,9 +77,11 @@ function Body({ data }) {
                     <Text numberOfLines={2} style={[styles.text, styles.title]}>
                         {data.Title}
                     </Text>
-                    <Text numberOfLines={4} style={styles.text}>
-                        {data.Content}
-                    </Text>
+                    {data.Content ? (
+                        <Text numberOfLines={4} style={styles.text}>
+                            {data.Content}
+                        </Text>
+                    ) : null}
                     {data.Pictures.length == 1 ? (
                         <Image source={{ uri: `${imageURL}${data.Pictures[0].Path}` }} style={styles.img} />
                     ) : null}
