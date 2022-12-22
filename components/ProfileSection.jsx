@@ -1,4 +1,5 @@
 import { StyleSheet, Image, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { useStore } from '../store';
 import GlobalStyles from '../assets/styles/GlobalStyles';
@@ -56,6 +57,12 @@ function ProfileSection({ canEdit, data, totalPosts }) {
 
     // Variables
     const { avatarURL } = states;
+    const navigation = useNavigation();
+
+    // Event handlers
+    const handleEditProfile = () => {
+        navigation.navigate('EditProfile');
+    };
 
     return (
         <View style={styles.wrapper}>
@@ -79,7 +86,7 @@ function ProfileSection({ canEdit, data, totalPosts }) {
                 ) : null}
             </View>
             {canEdit ? (
-                <Button title='Chỉnh sửa' outline fluid style={styles.button} />
+                <Button title='Chỉnh sửa' outline fluid style={styles.button} onPress={handleEditProfile} />
             ) : (
                 <View style={styles.divider}></View>
             )}
