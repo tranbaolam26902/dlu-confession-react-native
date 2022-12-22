@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, FlatList, TouchableOpacity, Image } from 'react
 import GlobalStyles from '../../assets/styles/GlobalStyles';
 import { useStore } from '../../store';
 import CategoryTag from '../CategoryTag';
+import ScaleImage from '../ScaleImage';
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -27,12 +28,11 @@ const styles = StyleSheet.create({
         borderColor: GlobalStyles.colors.secondary,
     },
     img: {
-        height: 300,
+        marginTop: 8,
         borderWidth: 0.4,
         borderStyles: 'solid',
-        borderColor: GlobalStyles.colors.gray,
+        borderColor: GlobalStyles.colors.gray0,
         borderRadius: 12,
-        marginTop: 8,
     },
 });
 
@@ -68,9 +68,9 @@ function Body({ data }) {
                     {data.Content ? (
                         <Text style={styles.text}>{data.Content.replace(/\n+/g, '\n').split('\n')}</Text>
                     ) : null}
-                    {data.Pictures.map((image) => {
-                        return <Image source={{ uri: `${imageURL}${image.Path}` }} key={image.Id} style={styles.img} />;
-                    })}
+                    {data.Pictures.map((image) => (
+                        <ScaleImage source={`${imageURL}${image.Path}`} key={image.Id} style={styles.img} />
+                    ))}
                 </View>
             ) : (
                 <TouchableOpacity onPress={handleNavigate}>
@@ -83,11 +83,11 @@ function Body({ data }) {
                         </Text>
                     ) : null}
                     {data.Pictures.length == 1 ? (
-                        <Image source={{ uri: `${imageURL}${data.Pictures[0].Path}` }} style={styles.img} />
+                        <ScaleImage source={`${imageURL}${data.Pictures[0].Path}`} style={styles.img} />
                     ) : null}
                     {data.Pictures.length > 1 ? (
                         <View>
-                            <Image source={{ uri: `${imageURL}${data.Pictures[0].Path}` }} style={styles.img} />
+                            <ScaleImage source={`${imageURL}${data.Pictures[0].Path}`} style={styles.img} />
                             <Text style={styles.readMore}>Xem thêm</Text>
                         </View>
                     ) : null}
