@@ -212,7 +212,7 @@ function CreatePostScreen({ navigation }) {
             allowsMultipleSelection: true,
             quality: 1,
         });
-        setImages([...images, ...result.assets]);
+        if (!result.canceled) setImages([...images, ...result.assets]);
     };
     const handleDeleteImages = () => {
         setImages([]);
