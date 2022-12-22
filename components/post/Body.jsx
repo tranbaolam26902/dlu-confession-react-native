@@ -1,8 +1,10 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { StyleSheet, View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, Text, FlatList, TouchableOpacity, Image, Pressable } from 'react-native';
 
 import GlobalStyles from '../../assets/styles/GlobalStyles';
 import { useStore } from '../../store';
+
+import Button from '../Button';
 import CategoryTag from '../CategoryTag';
 import ScaleImage from '../ScaleImage';
 
@@ -19,16 +21,11 @@ const styles = StyleSheet.create({
         color: GlobalStyles.colors.textColor,
     },
     readMore: {
-        paddingVertical: 8,
-        fontSize: 14,
-        fontWeight: 'bold',
-        color: GlobalStyles.colors.secondary,
-        textAlign: 'center',
-        borderStyle: 'solid',
-        borderColor: GlobalStyles.colors.secondary,
+        marginTop: 8,
     },
     img: {
         marginTop: 8,
+        width: '100%',
         borderWidth: 0.4,
         borderStyles: 'solid',
         borderColor: GlobalStyles.colors.gray0,
@@ -73,25 +70,29 @@ function Body({ data }) {
                     ))}
                 </View>
             ) : (
-                <TouchableOpacity onPress={handleNavigate}>
-                    <Text numberOfLines={2} style={[styles.text, styles.title]}>
-                        {data.Title}
-                    </Text>
-                    {data.Content ? (
-                        <Text numberOfLines={4} style={styles.text}>
-                            {data.Content}
+                <>
+                    <TouchableOpacity onPress={handleNavigate}>
+                        <Text numberOfLines={2} style={[styles.text, styles.title]}>
+                            {data.Title}
                         </Text>
-                    ) : null}
-                    {data.Pictures.length == 1 ? (
-                        <ScaleImage source={`${imageURL}${data.Pictures[0].Path}`} style={styles.img} />
-                    ) : null}
-                    {data.Pictures.length > 1 ? (
-                        <View>
+                        {data.Content ? (
+                            <Text numberOfLines={4} style={styles.text}>
+                                {data.Content}
+                            </Text>
+                        ) : null}
+                    </TouchableOpacity>
+                    <Pressable onPress={handleNavigate}>
+                        {data.Pictures.length == 1 ? (
                             <ScaleImage source={`${imageURL}${data.Pictures[0].Path}`} style={styles.img} />
-                            <Text style={styles.readMore}>Xem thêm</Text>
-                        </View>
-                    ) : null}
-                </TouchableOpacity>
+                        ) : null}
+                        {data.Pictures.length > 1 ? (
+                            <View>
+                                <ScaleImage source={`${imageURL}${data.Pictures[0].Path}`} style={styles.img} />
+                                <Button title='Xem thêm' text style={styles.readMore} onPress={handleNavigate} />
+                            </View>
+                        ) : null}
+                    </Pressable>
+                </>
             )}
         </View>
     );
