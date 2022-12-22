@@ -45,7 +45,7 @@ function PostDetailScreen({ route }) {
     }, [route]);
 
     return (
-        <ScrollView nestedScrollEnabled={true} showsHorizontalScrollIndicator={false} style={styles.wrapper}>
+        <ScrollView nestedScrollEnabled={true} showsVerticalScrollIndicator={false} style={styles.wrapper}>
             <View style={styles.post}>
                 <PostHeader data={data} />
                 <PostBody data={data} />
