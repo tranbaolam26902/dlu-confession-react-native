@@ -61,31 +61,43 @@ function Header({ data }) {
         return `${day} tháng ${month}, ${year}`;
     };
 
-    
     // Event handlers
     const handleNavigate = () => {
         if (route.name !== 'Profile')
             navigation.push('Profile', { data: { Name: data.NickName, Id: data.PostHistories[0].AccountId } });
         else navigation.navigate('Profile', { data: { Name: data.NickName, Id: data.PostHistories[0].AccountId } });
     };
-  
+
     // Component's useEffect
     useEffect(() => {
         setDate(convertDate(data.CreatedTime));
     }, []);
 
-    return (
-        <View style={styles.wrapper}>
-            <TouchableOpacity onPress={handleNavigate}>
-                <Image source={{ uri: `${avatarURL}${data.Avatar}` }} style={styles.avatar} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleNavigate} style={styles.information}>
-                <Text style={styles.name}>{data.NickName}</Text>
-                <Text style={styles.date}>{date}</Text>
-            </TouchableOpacity>
-            <IconButton icon={icons.optionVertical} style={styles.option} />
-        </View>
-    );
+    if (data.PrivateMode) {
+        return (
+            <View style={styles.wrapper}>
+                <Image source={{ uri: `${avatarURL}Default/Avatar_default.png`}} style={styles.avatar} />
+                <View style={styles.information}>
+                    <Text style={styles.name}>Ẩn danh</Text>
+                    <Text style={styles.date}>{date}</Text>
+                </View>
+                <IconButton icon={icons.optionVertical} style={styles.option} />
+            </View>
+        );
+    } else {
+        return (
+            <View style={styles.wrapper}>
+                <TouchableOpacity onPress={handleNavigate}>
+                    <Image source={{ uri: `${avatarURL}${data.Avatar}` }} style={styles.avatar} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={handleNavigate} style={styles.information}>
+                    <Text style={styles.name}>{data.NickName}</Text>
+                    <Text style={styles.date}>{date}</Text>
+                </TouchableOpacity>
+                <IconButton icon={icons.optionVertical} style={styles.option} />
+            </View>
+        );
+    }
 }
 
 export default Header;
