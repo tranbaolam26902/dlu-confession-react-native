@@ -95,7 +95,12 @@ export default function App() {
                     <Stack.Screen
                         name='ChangePassword'
                         component={ChangePasswordScreen}
-                        options={{ animation: 'slide_from_right', tabBarButton: () => null }}
+                        options={{
+                            animation: 'slide_from_right',
+                            tabBarButton: () => null,
+                            title: 'Đổi mật khẩu',
+                            headerShown: true,
+                        }}
                     />
                     <Stack.Screen
                         name='CreatePost'

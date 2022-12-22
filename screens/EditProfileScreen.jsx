@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { StyleSheet, StatusBar, View, Image, TouchableOpacity, Pressable, Keyboard } from 'react-native';
+import { StyleSheet, StatusBar, View, Image, TouchableOpacity, Pressable, Keyboard, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -29,6 +29,14 @@ const styles = StyleSheet.create({
     changeAvatarText: {
         marginTop: 8,
     },
+    error: {
+        marginTop: -16,
+        marginBottom: 16,
+        fontSize: 16,
+        fontStyle: 'italic',
+        color: GlobalStyles.colors.red,
+        textAlign: 'center',
+    },
     input: {
         width: '100%',
     },
@@ -54,6 +62,7 @@ function EditProfileScreen() {
 
     // Component's states
     const [token, setToken] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
     const [avatar, setAvatar] = useState(`${avatarURL}${userInformation.UserProfile.Avatar}`);
     const [avatarData, setAvatarData] = useState({});
     const [nickname, setNickname] = useState(userInformation.UserProfile.NickName);
@@ -79,6 +88,13 @@ function EditProfileScreen() {
             return true;
         return false;
     };
+    const isValid = () => {
+        if (nickname === '') {
+            setErrorMessage('Tên hiển thị không được để trống!');
+            return false;
+        }
+        return true;
+    };
     const updateUserInformation = () => {
         fetch(`${apiURL}/api/useraccount/getinfo`, {
             headers: {
@@ -100,6 +116,7 @@ function EditProfileScreen() {
             handleBack();
             return;
         }
+        if (!isValid()) return;
         const formData = new FormData();
         const data = {
             UserProfile: {
@@ -157,6 +174,7 @@ function EditProfileScreen() {
                         onPress={handleSelectAvatar}
                     />
                 </View>
+                {errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
                 <View style={styles.input}>
                     <Input
                         label='Tên hiển thị'

@@ -50,6 +50,7 @@ const Input = forwardRef(
                 <TextInput
                     ref={ref}
                     style={[styles.input, inputStyle]}
+                    autoCapitalize='none'
                     cursorColor={GlobalStyles.colors.textColor}
                     selectionColor={GlobalStyles.colors.gray0}
                     placeholder={placeholder}
