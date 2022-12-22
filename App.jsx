@@ -85,7 +85,12 @@ export default function App() {
                     <Stack.Screen
                         name='EditProfile'
                         component={EditProfileScreen}
-                        options={{ animation: 'slide_from_right', tabBarButton: () => null }}
+                        options={{
+                            animation: 'slide_from_right',
+                            tabBarButton: () => null,
+                            title: 'Chỉnh sửa thông tin cá nhân',
+                            headerShown: true,
+                        }}
                     />
                     <Stack.Screen
                         name='ChangePassword'

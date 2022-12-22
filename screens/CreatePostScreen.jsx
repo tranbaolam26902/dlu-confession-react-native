@@ -140,7 +140,7 @@ function CreatePostScreen({ navigation }) {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [images, setImages] = useState([]);
-    const [isPrivate, setIsPrivate] = useState(true);
+    const [isPrivate, setIsPrivate] = useState(false);
 
     // Variables
     const { apiURL } = states;
