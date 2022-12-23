@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, FlatList, StatusBar, RefreshControl, View, Image, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, FlatList, RefreshControl, View, Image, TouchableOpacity, Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useStore, actions } from '../store';
 import GlobalStyles from '../assets/styles/GlobalStyles';
+import icons from '../assets/icons';
 
 import Post from '../components/post';
 import HeaderBar from '../components/header';
 import IconButton from '../components/IconButton';
-import icons from '../assets/icons';
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -53,11 +53,10 @@ function HomeScreen({ navigation, route }) {
 
     // Component's states
     const [refreshing, setRefreshing] = useState(false);
-    const [data, setData] = useState([]);
-    const [avatar, setAvatar] = useState('');
+    const [posts, setPosts] = useState([]);
 
     // Variables
-    const { apiURL, avatarURL } = states;
+    const { apiURL, avatarURL, userInformation } = states;
 
     // Functions
     const onRefresh = () => {
@@ -68,27 +67,9 @@ function HomeScreen({ navigation, route }) {
         fetch(`${apiURL}/api/post/index`)
             .then((response) => response.json())
             .then((responsePosts) => {
-                setData(responsePosts);
+                setPosts(responsePosts);
                 setRefreshing(false);
             });
-    };
-    const setUserId = async () => {
-        const token = await AsyncStorage.getItem('@token', (err, item) => {
-            return item;
-        });
-        if (token) {
-            fetch(`${apiURL}/api/useraccount/getinfo`, {
-                headers: {
-                    Authorization: token,
-                },
-            })
-                .then((response) => response.json())
-                .then(async (responseUser) => {
-                    if (responseUser.Id) await AsyncStorage.setItem('@userId', responseUser.Id);
-                    dispatch(actions.setUserInformation(responseUser));
-                    setAvatar(responseUser.UserProfile.Avatar);
-                });
-        }
     };
 
     // Event handlers
@@ -98,9 +79,7 @@ function HomeScreen({ navigation, route }) {
 
     useEffect(() => {
         getPosts();
-        setUserId();
     }, []);
-
     useEffect(() => {
         try {
             if (route.params.data) getPosts();
@@ -109,7 +88,6 @@ function HomeScreen({ navigation, route }) {
 
     return (
         <>
-            <StatusBar backgroundColor={GlobalStyles.colors.white} barStyle={'dark-content'} />
             <HeaderBar />
             <FlatList
                 style={styles.wrapper}
@@ -117,7 +95,10 @@ function HomeScreen({ navigation, route }) {
                 ListHeaderComponent={() => (
                     <View style={styles.header}>
                         <TouchableOpacity onPress={() => navigation.navigate('UserProfile')}>
-                            <Image source={{ uri: `${avatarURL}${avatar}` }} style={styles.avatar} />
+                            <Image
+                                source={{ uri: `${avatarURL}${userInformation.UserProfile.Avatar}` }}
+                                style={styles.avatar}
+                            />
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.input} onPress={handleCreatePost}>
                             <Text style={styles.text}>Bạn đang nghĩ gì?</Text>
@@ -126,7 +107,7 @@ function HomeScreen({ navigation, route }) {
                     </View>
                 )}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                data={data}
+                data={posts}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => <Post styles={styles.container} data={item} />}
             />

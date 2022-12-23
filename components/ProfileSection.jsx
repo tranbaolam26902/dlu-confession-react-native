@@ -74,7 +74,7 @@ function ProfileSection({ canEdit, data, totalPosts }) {
                 </View>
                 <View style={styles.information}>
                     <Text style={styles.emphasize}>
-                        {Math.floor((Date.now() - Date.parse(data.UserProfile.Birthday)) / 86400000)}
+                        {Math.floor((Date.now() - Date.parse(data.UserProfile.Birthday)) / 86400000) + 1}
                     </Text>
                     <Text>Ngày hoạt động</Text>
                 </View>

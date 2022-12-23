@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FlatList, RefreshControl, View } from 'react-native';
-import { useStore } from '../store';
 
+import { useStore } from '../store';
 import GlobalStyles from '../assets/styles/GlobalStyles';
 
 import Post from '../components/post';
