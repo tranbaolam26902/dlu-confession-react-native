@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { StyleSheet, StatusBar, View, Pressable, Keyboard, Text, Modal } from 'react-native';
+import { StyleSheet, View, Pressable, Keyboard, Text, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -154,10 +154,6 @@ function ChangePasswordScreen() {
 
     return (
         <>
-            <StatusBar
-                backgroundColor={showModal ? 'rgba(0,0,0,0.5)' : GlobalStyles.colors.white}
-                barStyle={'dark-content'}
-            />
             <Pressable style={styles.body} onPress={() => Keyboard.dismiss()}>
                 <Modal animationType='fade' transparent={true} visible={showModal}>
                     <View style={styles.overlay}>

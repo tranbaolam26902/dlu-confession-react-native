@@ -2,12 +2,12 @@ import { useRef, useState } from 'react';
 import { StyleSheet, View, Text, Image, Pressable, Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { useStore, actions } from '../store';
 import GlobalStyles from '../assets/styles/GlobalStyles';
 import images from '../assets/images';
 
 import Button from '../components/Button';
 import Input from '../components/Input';
-import { useStore } from '../store';
 
 function SignUpScreen({ navigation }) {
     // Global states
@@ -50,12 +50,19 @@ function SignUpScreen({ navigation }) {
             .then((response) => response.json())
             .then(async (response) => {
                 if (response.access_token) {
-                    await AsyncStorage.setItem('@token', response.access_token);
+                    const token = 'bearer ' + response.access_token;
+                    await AsyncStorage.setItem('@token', token);
+                    fetch(`${apiURL}/api/useraccount/getinfo`, {
+                        headers: {
+                            Authorization: token,
+                        },
+                    })
+                        .then((response) => response.json())
+                        .then((responseUser) => {
+                            dispatch(actions.setUserInformation(responseUser));
+                        });
                     navigation.replace('MainScreen');
                 } else setErrorMessage(response.error_description);
-            })
-            .catch((error) => {
-                console.log(error.message);
             });
     };
     const signUp = () => {
@@ -79,9 +86,6 @@ function SignUpScreen({ navigation }) {
                     setErrorMessage(response.ModelState.Error[0]);
                     return;
                 } else signIn();
-            })
-            .catch((error) => {
-                console.log(error.message);
             });
     };
 

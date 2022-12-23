@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { StyleSheet, StatusBar, RefreshControl, FlatList } from 'react-native';
+import { StyleSheet, RefreshControl, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useStore } from '../store';
@@ -58,12 +58,10 @@ function UserProfile() {
 
     useEffect(() => {
         getPersonalPosts();
-
     }, []);
 
     return (
         <>
-            <StatusBar backgroundColor={GlobalStyles.colors.white} barStyle={'dark-content'} />
             <HeaderBar />
             <FlatList
                 style={styles.wrapper}

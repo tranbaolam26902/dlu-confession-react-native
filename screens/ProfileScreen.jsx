@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { StyleSheet, StatusBar, RefreshControl, FlatList } from 'react-native';
+import { StyleSheet, RefreshControl, FlatList } from 'react-native';
 
 import { useStore } from '../store';
 import GlobalStyles from '../assets/styles/GlobalStyles';
@@ -65,7 +65,6 @@ function ProfileScreen({ route }) {
 
     return (
         <>
-            <StatusBar backgroundColor={GlobalStyles.colors.white} barStyle={'dark-content'} />
             <FlatList
                 style={styles.wrapper}
                 decelerationRate={'normal'}

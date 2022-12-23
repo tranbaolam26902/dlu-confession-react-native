@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, ScrollView, Text, StatusBar, RefreshControl, Pressable } from 'react-native';
+import { StyleSheet, ScrollView, Text, RefreshControl, Pressable } from 'react-native';
 
 import { useStore } from '../store';
 import GlobalStyles from '../assets/styles/GlobalStyles';
@@ -67,7 +67,6 @@ function CategoryScreen({ navigation, route }) {
 
     return (
         <>
-            <StatusBar backgroundColor={GlobalStyles.colors.white} barStyle={'dark-content'} />
             <HeaderBar />
             <ScrollView
                 style={styles.wrapper}
