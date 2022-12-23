@@ -29,13 +29,19 @@ function UserProfile() {
     const { apiURL, userInformation } = states;
 
     // Functions
+
     const getPersonalPosts = async () => {
+        const token = await AsyncStorage.getItem('@token', (err, item) => {
+            return item;
+        });
         await AsyncStorage.getItem('@userId', (err, item) => {
             const formData = new FormData();
             formData.append('id', item);
-            fetch(`${apiURL}/api/post/PostByUser`, {
-                method: 'POST',
-                body: formData,
+            fetch(`${apiURL}/api/userpost/index`, {
+                method: 'GET',
+                headers: {
+                    Authorization: token,
+                },
             })
                 .then((response) => response.json())
                 .then((response) => {
@@ -44,6 +50,7 @@ function UserProfile() {
                 });
         });
     };
+
     const onRefresh = () => {
         setRefreshing(true);
         getPersonalPosts();
@@ -51,6 +58,7 @@ function UserProfile() {
 
     useEffect(() => {
         getPersonalPosts();
+
     }, []);
 
     return (
