@@ -201,13 +201,9 @@ function CreatePostScreen({ navigation }) {
                 Authorization: token,
             },
             body: formData,
-        })
-            .then(() => {
-                navigation.navigate('Home', { data: true });
-            })
-            .catch((e) => {
-                console.log(e);
-            });
+        }).then(() => {
+            navigation.navigate('Home', { data: true });
+        });
     };
     const handleAddImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
