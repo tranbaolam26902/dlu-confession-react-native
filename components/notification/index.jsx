@@ -1,4 +1,4 @@
-import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -81,14 +81,41 @@ function Notification({ data }) {
         })
             .then((response) => response.json())
             .then((response) => {
-                navigation.navigate('PostDetail', { data: response });
+                if (response.status === 200) {
+                    navigation.navigate('PostDetail', { data: response });
+                }
+                if (response.ModelState) {
+                    showError(response.ModelState.Error[0]);
+                }
             });
+    };
+    const showError = (errorMessage) => {
+        Alert.alert('Thông báo', errorMessage, [{ text: 'OK', onPress: handleDelete }]);
     };
 
     // Event handlers
     const handlePress = () => {
         setNotificationStatus();
         showPost();
+    };
+
+    const handleDelete = () => {
+        const formData = new FormData();
+        formData.append('id', notification.Id);
+        fetch(`${apiURL}/api/UserNotify/DeleteNotify`, {
+            method: 'POST',
+            headers: {
+                Authorization: token,
+            },
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                if (response.status === 200) {
+                    setNotification(response);
+                }
+            });
+        navigation.navigate('Notification', {data: true})
     };
 
     useEffect(() => {
