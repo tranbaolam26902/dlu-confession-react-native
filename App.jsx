@@ -15,6 +15,7 @@ import {
     MainScreen,
     PostsByCategoryScreen,
     ProfileScreen,
+    CreateCategoryScreen,
 } from './screens';
 
 const Stack = createNativeStackNavigator();
@@ -110,6 +111,16 @@ export default function App() {
                             tabBarButton: () => null,
                             headerShown: true,
                             title: 'Tạo bài viết',
+                        }}
+                    />
+                    <Stack.Screen
+                        name='CreateCategory'
+                        component={CreateCategoryScreen}
+                        options={{
+                            animation: 'slide_from_right',
+                            tabBarButton: () => null,
+                            headerShown: true,
+                            title: 'Tạo danh mục'
                         }}
                     />
                     <Stack.Screen

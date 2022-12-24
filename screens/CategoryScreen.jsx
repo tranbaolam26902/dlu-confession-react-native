@@ -1,11 +1,22 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, ScrollView, Text, StatusBar, RefreshControl, Pressable } from 'react-native';
+import {
+    StyleSheet,
+    ScrollView,
+    Text,
+    StatusBar,
+    RefreshControl,
+    Pressable,
+    View,
+    TouchableOpacity,
+} from 'react-native';
 
 import { useStore } from '../store';
 import GlobalStyles from '../assets/styles/GlobalStyles';
 
 import HeaderBar from '../components/header';
 import Empty from '../components/Empty';
+import Button from '../components/Button';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -31,6 +42,14 @@ const styles = StyleSheet.create({
     categoryText: {
         fontSize: 16,
     },
+    categoryHeader: {
+        flex: 2,
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+    },
+    buttonCreate: {
+        padding: 16,
+    },
 });
 
 function CategoryScreen({ navigation, route }) {
@@ -41,6 +60,7 @@ function CategoryScreen({ navigation, route }) {
     // Component's states
     const [refreshing, setRefreshing] = useState(false);
     const [categories, setCategories] = useState([]);
+    const [roleTemps, setRoleTemps] = useState([]);
 
     // Functions
     const getCategories = () => {
@@ -49,6 +69,21 @@ function CategoryScreen({ navigation, route }) {
             .then((response) => {
                 setCategories(response);
                 setRefreshing(false);
+            });
+    };
+    const getUserInformation = async () => {
+        const token = await AsyncStorage.getItem('@token', (err, item) => {
+            return item;
+        });
+        fetch(`${apiURL}/api/useraccount/getinfo`, {
+            method: 'POST',
+            headers: {
+                Authorization: token,
+            },
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                setRoleTemps(response.RoleTemps);
             });
     };
     const onRefresh = () => {
@@ -60,8 +95,12 @@ function CategoryScreen({ navigation, route }) {
             data: category,
         });
     };
+    const handleCreate = () => {
+        navigation.navigate('CreateCategory');
+    };
 
     useEffect(() => {
+        getUserInformation();
         getCategories();
     }, []);
 
@@ -75,7 +114,12 @@ function CategoryScreen({ navigation, route }) {
                 showsVerticalScrollIndicator={false}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             >
-                <Text style={styles.title}>Chọn danh mục</Text>
+                <View style={styles.categoryHeader}>
+                    <Text style={styles.title}>Chọn danh mục</Text>{' '}
+                    <View style={styles.buttonCreate}>
+                        <Button title='Thêm danh mục' text onPress={handleCreate} />
+                    </View>
+                </View>
                 {categories.length !== 0 ? (
                     categories.map((category) => (
                         <Pressable
