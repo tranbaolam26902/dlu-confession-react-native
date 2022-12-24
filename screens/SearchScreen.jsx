@@ -116,7 +116,12 @@ function SearchScreen({ navigation }) {
                     style={styles.wrapper}
                     onPress={() => navigation.navigate('PostDetail', { data: item })}
                 >
-                    <Image source={{ uri: `${avatarURL}${item.Avatar}` }} style={styles.avatar} />
+                    {item.PrivateMode ? (
+                        <Image source={{ uri: `${avatarURL}Default/Avatar_default.png` }} style={styles.avatar} />
+                    ) : (
+                        <Image source={{ uri: `${avatarURL}${item.Avatar}` }} style={styles.avatar} />
+                    )}
+
                     <View style={styles.information}>
                         <Text numberOfLines={2} style={[styles.text, styles.title]}>
                             {item.Title}

@@ -15,6 +15,7 @@ import {
     MainScreen,
     PostsByCategoryScreen,
     ProfileScreen,
+    CreateCategoryScreen,
 } from './screens';
 
 const Stack = createNativeStackNavigator();

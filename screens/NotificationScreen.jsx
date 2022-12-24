@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     },
 });
 
-function NotificationScreen() {
+function NotificationScreen({ route }) {
     // Global states
     const [states, dispatch] = useStore();
     const { apiURL } = states;
@@ -84,15 +84,20 @@ function NotificationScreen() {
             });
     };
 
+    // Component's Effect
     useEffect(() => {
         getToken();
         getNotifications();
     }, [token]);
-
     useEffect(() => {
         if (isNewNotifications()) setShowReadAll(true);
         else setShowReadAll(false);
     }, [notifications]);
+    useEffect(() => {
+        try {
+            if (route.params.data) getNotifications();
+        } catch {}
+    }, [route]);
 
     return (
         <>
