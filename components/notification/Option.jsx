@@ -1,4 +1,4 @@
-import { StyleSheet, Image, Pressable, View } from 'react-native';
+import { StyleSheet, Image, Pressable, View, TouchableOpacity } from 'react-native';
 
 import GlobalStyles from '../../assets/styles/GlobalStyles';
 import icons from '../../assets/icons';
@@ -18,9 +18,9 @@ const styles = StyleSheet.create({
 function Option({ data }) {
     return (
         <View style={styles.wrapper}>
-            <Pressable style={styles.button}>
+            <TouchableOpacity style={styles.button}>
                 <Image source={icons.optionHorizontal} />
-            </Pressable>
+            </TouchableOpacity>
         </View>
     );
 }
