@@ -1,5 +1,17 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, ScrollView, Text, RefreshControl, Pressable, View, Modal, Keyboard } from 'react-native';
+import {
+    StyleSheet,
+    ScrollView,
+    Text,
+    RefreshControl,
+    Pressable,
+    View,
+    Modal,
+    Keyboard,
+    TouchableOpacity,
+    Image,
+    Alert,
+} from 'react-native';
 
 import { useStore } from '../store';
 import GlobalStyles from '../assets/styles/GlobalStyles';
@@ -7,9 +19,10 @@ import GlobalStyles from '../assets/styles/GlobalStyles';
 import HeaderBar from '../components/header';
 import Empty from '../components/Empty';
 import Button from '../components/Button';
-import ButtonModal from '../components/BottomModal';
+import ButtonModal from '../components/CustomModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Input from '../components/Input';
+import icons from '../assets/icons';
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -28,6 +41,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     categoryItem: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         marginHorizontal: 16,
         marginBottom: 8,
         padding: 16,
@@ -61,6 +77,10 @@ const styles = StyleSheet.create({
     },
     buttonSave: {
         marginLeft: 16,
+    },
+    buttonDelete: {
+        tintColor: GlobalStyles.colors.secondary,
+        borderRadius: 999,
     },
     modalMessage: {
         marginBottom: 8,
@@ -118,6 +138,25 @@ function CategoryScreen({ navigation, route }) {
                 setRoles(response.RoleTemps);
             });
     };
+    const deleteCategory = async (category) => {
+        const token = await AsyncStorage.getItem('@token', (err, item) => {
+            return item;
+        });
+        const formData = new FormData();
+        formData.append('id', category.Id);
+        fetch(`${apiURL}/api/admcategory/delete`, {
+            method: 'POST',
+            headers: {
+                Authorization: token,
+            },
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                setCategories(response);
+            });
+    };
+
     const onRefresh = () => {
         setRefreshing(true);
         getCategories();
@@ -179,6 +218,15 @@ function CategoryScreen({ navigation, route }) {
     const handleCancel = () => {
         setShowBottonModal(false);
     };
+    const handleDelete = (e, category) => {
+        Alert.alert('Thông báo', 'Bạn có muốn xóa danh mục này', [
+            {
+                text: 'Hủy',
+                style: 'cancel',
+            },
+            { text: 'OK' , onPress: () => {deleteCategory(category)}},
+        ]);
+    };
 
     // Component's Effects
     useEffect(() => {
@@ -206,13 +254,18 @@ function CategoryScreen({ navigation, route }) {
                 </View>
                 {categories.length !== 0 ? (
                     categories.map((category) => (
-                        <Pressable
+                        <TouchableOpacity
                             key={category.Id}
                             style={styles.categoryItem}
                             onPress={(e) => handlePress(e, category)}
                         >
                             <Text style={styles.categoryText}>{category.Name}</Text>
-                        </Pressable>
+                            {roles && roles.includes('Manager') ? (
+                                <TouchableOpacity onPress={(e) => handleDelete(e, category)}>
+                                    <Image source={icons.trash} style={styles.buttonDelete} />
+                                </TouchableOpacity>
+                            ) : null}
+                        </TouchableOpacity>
                     ))
                 ) : (
                     <Empty text='Chưa có danh mục!' />
