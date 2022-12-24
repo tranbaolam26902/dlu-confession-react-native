@@ -8,6 +8,7 @@ import GlobalStyles from '../assets/styles/GlobalStyles';
 
 import Button from '../components/Button';
 import Input from '../components/Input';
+import CustomModal from '../components/CustomModal';
 
 const styles = StyleSheet.create({
     overlay: {
@@ -155,14 +156,12 @@ function ChangePasswordScreen() {
     return (
         <>
             <Pressable style={styles.body} onPress={() => Keyboard.dismiss()}>
-                <Modal animationType='fade' transparent={true} visible={showModal}>
-                    <View style={styles.overlay}>
-                        <View style={styles.modalWrapper}>
-                            <Text style={styles.modalMessage}>Đổi mật khẩu thành công!</Text>
-                            <Button title='Đóng' accent fluid onPress={handleBack} />
-                        </View>
+                <CustomModal showModal={showModal} setShowModal={setShowModal}>
+                    <View style={styles.modalWrapper}>
+                        <Text style={styles.modalMessage}>Đổi mật khẩu thành công!</Text>
+                        <Button title='Đóng' accent fluid onPress={handleBack} />
                     </View>
-                </Modal>
+                </CustomModal>
                 {errorMessage !== '' ? <Text style={styles.error}>{errorMessage}</Text> : null}
                 <View style={styles.input}>
                     <Input

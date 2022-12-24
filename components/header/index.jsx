@@ -7,7 +7,7 @@ import images from '../../assets/images';
 import HeaderButton from './HeaderButton';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import BottomModal from '../BottomModal';
+import CustomModal from '../CustomModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const styles = StyleSheet.create({
@@ -71,11 +71,6 @@ function HeaderBar() {
 
     return (
         <>
-            <StatusBar
-                animated={true}
-                backgroundColor={showModal ? 'rgba(0, 0, 0, 0.5)' : GlobalStyles.colors.white}
-                barStyle={'dark-content'}
-            />
             <View style={styles.wrapper}>
                 <Image source={images.logoText} />
                 <View style={styles.action}>
@@ -84,7 +79,7 @@ function HeaderBar() {
                     <HeaderButton icon={icons.menu} onPress={handleMenu} />
                 </View>
             </View>
-            <BottomModal showModal={showModal} setShowModal={setShowModal} bottom>
+            <CustomModal showModal={showModal} setShowModal={setShowModal} bottom>
                 <View style={styles.modalWrapper}>
                     <TouchableOpacity style={styles.button} onPress={handleChangePassword}>
                         <Text style={styles.text}>Đổi mật khẩu</Text>
@@ -93,7 +88,7 @@ function HeaderBar() {
                         <Text style={[styles.text, { color: GlobalStyles.colors.red }]}>Đăng xuất</Text>
                     </TouchableOpacity>
                 </View>
-            </BottomModal>
+            </CustomModal>
         </>
     );
 }
