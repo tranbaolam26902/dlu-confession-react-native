@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, StatusBar, RefreshControl, FlatList } from 'react-native';
+import { StyleSheet, Text, View, RefreshControl, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useStore } from '../store';
@@ -96,7 +96,6 @@ function NotificationScreen() {
 
     return (
         <>
-            <StatusBar backgroundColor={GlobalStyles.colors.white} barStyle={'dark-content'} />
             <HeaderBar />
             <FlatList
                 style={styles.wrapper}

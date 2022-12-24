@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -142,6 +142,9 @@ function CreatePostScreen({ navigation }) {
     const [images, setImages] = useState([]);
     const [isPrivate, setIsPrivate] = useState(false);
 
+    // Component's refs
+    const contentRef = useRef();
+
     // Variables
     const { apiURL } = states;
 
@@ -198,13 +201,9 @@ function CreatePostScreen({ navigation }) {
                 Authorization: token,
             },
             body: formData,
-        })
-            .then(() => {
-                navigation.navigate('Home', { data: true });
-            })
-            .catch((e) => {
-                console.log(e);
-            });
+        }).then(() => {
+            navigation.navigate('Home', { data: true });
+        });
     };
     const handleAddImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -251,8 +250,17 @@ function CreatePostScreen({ navigation }) {
                     modalTitle='Chọn danh mục'
                     modalTitleStyle={{ marginLeft: 16 }}
                 />
-                <Input label='Tiêu đề' value={title} style={styles.input} setValue={setTitle} />
                 <Input
+                    label='Tiêu đề'
+                    value={title}
+                    style={styles.input}
+                    setValue={setTitle}
+                    blurOnSubmit={false}
+                    returnKeyType='next'
+                    onSubmitEditing={() => contentRef.current.focus()}
+                />
+                <Input
+                    ref={contentRef}
                     label='Nội dung'
                     multiline
                     numberOfLines={10}

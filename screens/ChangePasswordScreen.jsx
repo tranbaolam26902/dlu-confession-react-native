@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { StyleSheet, StatusBar, View, Pressable, Keyboard, Text, Modal } from 'react-native';
+import { StyleSheet, View, Pressable, Keyboard, Text, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -10,11 +10,16 @@ import Button from '../components/Button';
 import Input from '../components/Input';
 
 const styles = StyleSheet.create({
+    overlay: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    },
     modalWrapper: {
         alignItems: 'center',
-        marginTop: 120,
-        marginHorizontal: 32,
-        padding: 32,
+        paddingVertical: 32,
+        paddingHorizontal: 64,
         backgroundColor: GlobalStyles.colors.white,
         borderRadius: 16,
         shadowColor: '#000',
@@ -149,12 +154,13 @@ function ChangePasswordScreen() {
 
     return (
         <>
-            <StatusBar backgroundColor={GlobalStyles.colors.white} barStyle={'dark-content'} />
             <Pressable style={styles.body} onPress={() => Keyboard.dismiss()}>
-                <Modal animationType='slide' transparent={true} visible={showModal}>
-                    <View style={styles.modalWrapper}>
-                        <Text style={styles.modalMessage}>Đổi mật khẩu thành công!</Text>
-                        <Button title='Đóng' accent fluid onPress={handleBack} />
+                <Modal animationType='fade' transparent={true} visible={showModal}>
+                    <View style={styles.overlay}>
+                        <View style={styles.modalWrapper}>
+                            <Text style={styles.modalMessage}>Đổi mật khẩu thành công!</Text>
+                            <Button title='Đóng' accent fluid onPress={handleBack} />
+                        </View>
                     </View>
                 </Modal>
                 {errorMessage !== '' ? <Text style={styles.error}>{errorMessage}</Text> : null}

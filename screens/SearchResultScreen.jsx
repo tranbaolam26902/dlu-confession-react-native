@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, FlatList, Text, View } from 'react-native';
+
 import GlobalStyles from '../assets/styles/GlobalStyles';
 
 import Empty from '../components/Empty';
