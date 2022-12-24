@@ -14,4 +14,3 @@ export { default as SignInScreen } from './SignInScreen';
 export { default as SignUpScreen } from './SignUpScreen';
 export { default as MainScreen } from './MainScreen';
 export { default as PostsByCategoryScreen } from './PostsByCategoryScreen';
-export { default as CreateCategoryScreen} from './CreateCategoryScreen';

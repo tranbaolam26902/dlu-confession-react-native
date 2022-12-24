@@ -114,16 +114,6 @@ export default function App() {
                         }}
                     />
                     <Stack.Screen
-                        name='CreateCategory'
-                        component={CreateCategoryScreen}
-                        options={{
-                            animation: 'slide_from_right',
-                            tabBarButton: () => null,
-                            headerShown: true,
-                            title: 'Tạo danh mục'
-                        }}
-                    />
-                    <Stack.Screen
                         name='MainScreen'
                         component={MainScreen}
                         options={{ animation: 'slide_from_right' }}
