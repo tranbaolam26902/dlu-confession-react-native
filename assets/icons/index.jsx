@@ -22,6 +22,7 @@ const icons = {
     user: require('./user.png'),
     voteActive: require('./vote-active.png'),
     vote: require('./vote.png'),
+    trash: require('./trash.png'),
 };
 
 export default icons;
