@@ -9,6 +9,7 @@ import icons from '../assets/icons';
 import Post from '../components/post';
 import HeaderBar from '../components/header';
 import IconButton from '../components/IconButton';
+import PostOptionsModal from '../components/PostOptionsModal';
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -53,10 +54,9 @@ function HomeScreen({ navigation, route }) {
 
     // Component's states
     const [refreshing, setRefreshing] = useState(false);
-    const [posts, setPosts] = useState([]);
 
     // Variables
-    const { apiURL, avatarURL, userInformation } = states;
+    const { apiURL, avatarURL, userInformation, postData, posts } = states;
 
     // Functions
     const onRefresh = () => {
@@ -67,7 +67,7 @@ function HomeScreen({ navigation, route }) {
         fetch(`${apiURL}/api/post/index`)
             .then((response) => response.json())
             .then((responsePosts) => {
-                setPosts(responsePosts);
+                dispatch(actions.setPosts(responsePosts));
                 setRefreshing(false);
             });
     };
@@ -111,6 +111,7 @@ function HomeScreen({ navigation, route }) {
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => <Post styles={styles.container} data={item} />}
             />
+            {Object.keys(postData).length !== 0 ? <PostOptionsModal /> : null}
         </>
     );
 }

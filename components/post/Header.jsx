@@ -5,7 +5,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 
 import icons from '../../assets/icons';
 import GlobalStyles from '../../assets/styles/GlobalStyles';
-import { useStore } from '../../store';
+import { actions, useStore } from '../../store';
 
 import IconButton from '../IconButton';
 
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
         color: GlobalStyles.colors.secondary,
     },
     option: {
+        paddingLeft: 32,
         alignSelf: 'center',
     },
 });
@@ -67,6 +68,10 @@ function Header({ data }) {
             navigation.push('Profile', { data: { Name: data.NickName, Id: data.PostHistories[0].AccountId } });
         else navigation.navigate('Profile', { data: { Name: data.NickName, Id: data.PostHistories[0].AccountId } });
     };
+    const handleOption = () => {
+        dispatch(actions.setPostData(data));
+        dispatch(actions.setShowPostOptions(true));
+    };
 
     // Component's useEffect
     useEffect(() => {
@@ -76,12 +81,12 @@ function Header({ data }) {
     if (data.PrivateMode) {
         return (
             <View style={styles.wrapper}>
-                <Image source={{ uri: `${avatarURL}Default/Avatar_default.png`}} style={styles.avatar} />
+                <Image source={{ uri: `${avatarURL}Default/Avatar_default.png` }} style={styles.avatar} />
                 <View style={styles.information}>
                     <Text style={styles.name}>Ẩn danh</Text>
                     <Text style={styles.date}>{date}</Text>
                 </View>
-                <IconButton icon={icons.optionVertical} style={styles.option} />
+                <IconButton icon={icons.optionVertical} style={styles.option} onPress={handleOption} />
             </View>
         );
     } else {
@@ -94,7 +99,7 @@ function Header({ data }) {
                     <Text style={styles.name}>{data.NickName}</Text>
                     <Text style={styles.date}>{date}</Text>
                 </TouchableOpacity>
-                <IconButton icon={icons.optionVertical} style={styles.option} />
+                <IconButton icon={icons.optionVertical} style={styles.option} onPress={handleOption} />
             </View>
         );
     }

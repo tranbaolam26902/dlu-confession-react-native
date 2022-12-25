@@ -27,7 +27,9 @@ function CustomModal({ children, showModal, setShowModal, bottom }) {
             <Modal animationType='fade' transparent={true} visible={showModal}>
                 <Pressable
                     style={[styles.wrapper, bottom ? styles.bottom : styles.center]}
-                    onPress={() => setShowModal(false)}
+                    onPress={() => {
+                        setShowModal ? setShowModal(false) : setShowModal();
+                    }}
                 >
                     <TouchableWithoutFeedback onPress={(e) => e.preventDefault()}>{children}</TouchableWithoutFeedback>
                 </Pressable>

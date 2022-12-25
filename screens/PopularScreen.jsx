@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { StyleSheet, RefreshControl, FlatList } from 'react-native';
 
-import { useStore } from '../store';
+import { actions, useStore } from '../store';
 import GlobalStyles from '../assets/styles/GlobalStyles';
 
 import HeaderBar from '../components/header';
@@ -20,17 +20,16 @@ function PopularScreen({ navigation, route }) {
 
     // Component's states
     const [refreshing, setRefreshing] = useState(false);
-    const [posts, setPosts] = useState([]);
 
     // Variables
-    const { apiURL } = states;
+    const { apiURL, popularPosts } = states;
 
     // Functions
     const getPopularPosts = () => {
         fetch(`${apiURL}/api/post/hotpost`)
             .then((response) => response.json())
             .then((response) => {
-                setPosts(response);
+                dispatch(actions.setPopularPosts(response));
                 setRefreshing(false);
             });
     };
@@ -50,7 +49,7 @@ function PopularScreen({ navigation, route }) {
                 style={styles.wrapper}
                 decelerationRate={'normal'}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                data={posts}
+                data={popularPosts}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => <Post styles={styles.container} data={item} />}
             />
