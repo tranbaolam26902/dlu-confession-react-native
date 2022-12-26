@@ -142,6 +142,7 @@ function SignUpScreen({ navigation }) {
             />
             <Input
                 ref={passwordInputRef}
+                style={{ marginBottom: 8 }}
                 label='Mật khẩu'
                 secureTextEntry
                 value={password}

@@ -229,7 +229,7 @@ function CreatePostScreen({ navigation }) {
         <>
             <ScrollView style={styles.body} nestedScrollEnabled={true}>
                 {errorMessage !== '' ? <Text style={styles.error}>{errorMessage}</Text> : null}
-                <Text style={styles.label}>Danh mục</Text>
+                <Text style={styles.label}>Danh mục *</Text>
                 <DropDownPicker
                     schema={{ label: 'Name', value: 'Id' }}
                     mode='BADGE'
@@ -251,7 +251,7 @@ function CreatePostScreen({ navigation }) {
                     modalTitleStyle={{ marginLeft: 16 }}
                 />
                 <Input
-                    label='Tiêu đề'
+                    label='Tiêu đề *'
                     value={title}
                     style={styles.input}
                     setValue={setTitle}
