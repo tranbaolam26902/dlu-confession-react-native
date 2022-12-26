@@ -81,12 +81,11 @@ function Notification({ data }) {
         })
             .then((response) => response.json())
             .then((response) => {
-                if (response.status === 200) {
-                    navigation.navigate('PostDetail', { data: response });
-                }
                 if (response.ModelState) {
                     showError(response.ModelState.Error[0]);
+                    return;
                 }
+                navigation.navigate('PostDetail', { data: response });
             });
     };
     const showError = (errorMessage) => {
@@ -115,7 +114,7 @@ function Notification({ data }) {
                     setNotification(response);
                 }
             });
-        navigation.navigate('Notification', {data: true})
+        navigation.navigate('Notification', { data: true });
     };
 
     useEffect(() => {

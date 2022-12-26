@@ -149,7 +149,7 @@ function PostOptionsModal() {
                         {userInformation.RoleTemps.includes('Manager') ||
                         userInformation.UserProfile.Id === postData.PostHistories[0].AccountId ? (
                             <TouchableOpacity style={styles.button} onPress={handleDelete}>
-                                <Text style={[styles.text, { color: GlobalStyles.colors.red }]}>Xóa</Text>
+                                <Text style={[styles.text, { color: GlobalStyles.colors.red }]}>Xóa bài viết</Text>
                             </TouchableOpacity>
                         ) : null}
                     </View>

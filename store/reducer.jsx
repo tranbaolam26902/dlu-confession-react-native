@@ -1,6 +1,6 @@
 import { SET_POSTS, SET_POPULAR_POSTS, SET_USER_INFORMATION, SET_SHOW_POST_OPTIONS, SET_POST_DATA } from './constants';
 
-const apiURL = 'https://5869-113-180-209-221.ngrok.io';
+const apiURL = 'http://localhost:31234';
 
 const initStates = {
     apiURL: apiURL,

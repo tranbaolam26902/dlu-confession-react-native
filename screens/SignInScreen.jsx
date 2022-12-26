@@ -80,7 +80,7 @@ function SignInScreen({ navigation }) {
     const signIn = () => {
         fetch(`${apiURL}/token`, {
             method: 'POST',
-            body: `grant_type=password&username=Admin&password=Admin#123`,
+            body: `grant_type=password&username=${username}&password=${password}`,
         })
             .then((response) => response.json())
             .then(async (response) => {
@@ -105,7 +105,7 @@ function SignInScreen({ navigation }) {
 
     // Event handlers
     const handleSignIn = () => {
-        // if (!isValidSignInData()) return;
+        if (!isValidSignInData()) return;
         Keyboard.dismiss();
         signIn();
     };
