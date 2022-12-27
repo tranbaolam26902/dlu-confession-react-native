@@ -60,8 +60,10 @@ function SignUpScreen({ navigation }) {
                         .then((response) => response.json())
                         .then((responseUser) => {
                             dispatch(actions.setUserInformation(responseUser));
+                        })
+                        .then(() => {
+                            navigation.replace('MainScreen');
                         });
-                    navigation.replace('MainScreen');
                 } else setErrorMessage(response.error_description);
             });
     };
